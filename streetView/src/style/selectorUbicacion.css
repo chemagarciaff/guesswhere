@@ -1,0 +1,16 @@
+.selectorUbicacion {
+    width: 250px;
+    height: 100px;
+    position: absolute;
+    right: 80px;
+    bottom: 80px;
+    z-index: 5;
+    border: 3px solid gray;
+    border-radius: 10px;
+    transition: all 0.1s ease-in;
+}
+
+.selectorUbicacion:hover {
+    width: 500px;
+    height: 300px;
+}

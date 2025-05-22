@@ -1,0 +1,43 @@
+.contenedor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    font-family: fatkat;
+}
+
+.otros__contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.background {
+    font-size: 50px;
+    box-shadow: 0 0 5em #000000aa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.background__ranking {
+    background: linear-gradient(45deg, #FF466F, #FFBD54, #7D81F4, #B546F0, #8CA9F0);
+}
+.background__ajustes {
+    background: linear-gradient(135deg, #FF466F, #FFBD54, #7D81F4, #B546F0, #8CA9F0);
+}
+.background__perfil {
+    background: linear-gradient(225deg, #FF466F, #FFBD54, #7D81F4, #B546F0, #8CA9F0);
+}
+.background__amigos {
+    background: linear-gradient(315deg, #FF466F, #FFBD54, #7D81F4, #B546F0, #8CA9F0);
+}
+
+.boton {
+    padding: 15px 25px;
+    width: auto;
+    height: auto;
+}

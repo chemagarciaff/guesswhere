@@ -1,0 +1,65 @@
+#root {
+  max-width: 1680px;
+  margin: 0 auto;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+@font-face {
+  font-family: osaka;
+  src: url(./assets/fonts/osaka-re.ttf);
+}
+@font-face {
+  font-family: japanese;
+  src: url(./assets/fonts/JAPANESE_2020.ttf);
+}
+@font-face {
+  font-family: supersonic;
+  src: url(./assets/fonts/SupersonicRocketship.ttf);
+}
+@font-face {
+  font-family: transylvania;
+  src: url(./assets/fonts/TransylvaniaAvenueDEMO-Regular.otf);
+}
+@font-face {
+  font-family: fatkat;
+  src: url(./assets/fonts/fatkat.ttf);
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
