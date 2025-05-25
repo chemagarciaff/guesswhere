@@ -14,11 +14,11 @@ const PantallaConfiguracionPartida = () => {
         });
     };
 
-    useEffect(() => {
+    const reiniciarDatosPartida = () => {
         setConfiguracionPartida((prev) => ({
             ...prev,
             tiempo: 10,
-            categoria: 'libre',
+            categoria: 9,
             puntos: 0,
             coordenadasSeleccionada: {
                 lat: 0,
@@ -30,51 +30,66 @@ const PantallaConfiguracionPartida = () => {
             },
             distancia: 0
         }));
+    }
+
+    useEffect(() => {
+        reiniciarDatosPartida()
     }, []);
 
-        return (
-            <div className='contenedor'>
-                <div className="otros__contenedor">
-                    <label>Tiempo (segundos):</label>
-                    <input
-                        type="number"
-                        name="tiempo"
-                        max={180}
-                        min={1}
-                        value={configuracionPartida.tiempo}
-                        onChange={handleChange}
-                    />
+    return (
+        <div className='contenedor'>
 
-                    <label>Categoría:</label>
-                    <select
-                        name="categoria"
-                        value={configuracionPartida.categoria}
-                        onChange={handleChange}
-                    >
-                        <option value="libre">Libre</option>
-                        <option value="1">Capitales del Mundo</option>
-                        <option value="2">Ciudades Historicas</option>
-                        <option value="3">Maravillas Naturales</option>
-                        <option value="4">Playas y Costas</option>
-                        <option value="5">Patrimonio de la Unesco</option>
-                        <option value="6">Montañas y Cumbres</option>
-                        <option value="7">Islas del Mundo</option>
-                        <option value="8">Parques Nacionales</option>
-                        {/* Agrega más opciones si las tienes */}
-                    </select>
+            <div className="otros__contenedor">
+                <div className='formulario'>
+                    <p>Selecciona las opciones de juego</p>
+                    <div>
 
-                    <button className='boton'>
-                        <Link to={'/partida'}>Jugar</Link>
-                    </button>
-                    <button className='boton'>
-                        <Link to={'/inicio'}>Atras</Link>
-                    </button>
+                        <label>Tiempo (s):</label>
+                        <input
+                            type="number"
+                            name="tiempo"
+                            max={180}
+                            min={1}
+                            value={configuracionPartida.tiempo}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div>
+
+                        <label>Categoría:</label>
+                        <select
+                            name="categoria"
+                            value={configuracionPartida.categoria}
+                            onChange={handleChange}
+                        >
+                            <option value={1}>Capitales del Mundo</option>
+                            <option value={2}>Ciudades Historicas</option>
+                            <option value={3}>Maravillas Naturales</option>
+                            <option value={4}>Playas y Costas</option>
+                            <option value={5}>Patrimonio de la Unesco</option>
+                            <option value={6}>Montañas y Cumbres</option>
+                            <option value={7}>Islas del Mundo</option>
+                            <option value={8}>Parques Nacionales</option>
+                            <option value={9}>Libre</option>
+                            {/* Agrega más opciones si las tienes */}
+                        </select>
+                    </div>
                 </div>
-                <div className="background background__amigos">
-                    Configura tu partida
-                </div>
+
+                <button className='boton'>
+                    <Link to={'/partida'}>Jugar</Link>
+                </button>
+                <button className='boton'>
+                    <Link to={'/inicio'}>Atras</Link>
+                </button>
             </div>
-        );
-    };
 
-    export default PantallaConfiguracionPartida;
+            <div className="background background__amigos">
+                Configura tu partida
+            </div>
+        </div>
+    );
+};
+
+export default PantallaConfiguracionPartida;

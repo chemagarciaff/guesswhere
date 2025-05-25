@@ -10,16 +10,18 @@ const StreetView = () => {
   const getCoordenadas = async () => {
     let response = null;
     let data = null;
-    if (configuracionPartida.categoria === 'libre') {
+    if (configuracionPartida.categoria === 9) {
       response = await fetch("http://localhost:3000/guesswhere/ubicacion/random");
       data = await response.json();
     } else {
       response = await fetch("http://localhost:3000/guesswhere/pertenece/categoria/" + configuracionPartida.categoria);
       data = await response.json();
+      console.log(data)
     }
 
     setConfiguracionPartida((prev) => ({
       ...prev,
+      idUbicacion: data.id_ubicacion,
       coordenadasObjetivo: {
         ...prev.coordenadasObjetivo,
         lat: data.latitud,

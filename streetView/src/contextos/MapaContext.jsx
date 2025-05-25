@@ -1,15 +1,13 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
-// Crear el contexto
 export const MapaContext = createContext();
 
-// Crear el provider
 export const MapaProvider = ({ children }) => {
-
   const [configuracionPartida, setConfiguracionPartida] = useState({
     tiempo: 10,
-    categoria: 'libre',
+    categoria: 9,
     puntos: 0,
+    idUbicacion: '',
     coordenadasSeleccionada: {
       lat: 0,
       lon: 0,
@@ -21,12 +19,34 @@ export const MapaProvider = ({ children }) => {
     distancia: 0
   });
 
+  const [usuario, setUsuario] = useState(() => {
+    const storedUser = sessionStorage.getItem("usuario");
+    return storedUser
+      ? JSON.parse(storedUser)
+      : {
+          id: 0,
+          nombre: '',
+          apellido1: '',
+          apellido2: '',
+          email: '',
+          username: '',
+          nivel: 0,
+          puntuacion_total: 0,
+          privacidad: 0
+        };
+  });
 
+  // Guardar en sessionStorage cada vez que el usuario cambia
+  useEffect(() => {
+    sessionStorage.setItem("usuario", JSON.stringify(usuario));
+  }, [usuario]);
 
   return (
     <MapaContext.Provider value={{
       configuracionPartida,
-      setConfiguracionPartida
+      setConfiguracionPartida,
+      usuario,
+      setUsuario
     }}>
       {children}
     </MapaContext.Provider>

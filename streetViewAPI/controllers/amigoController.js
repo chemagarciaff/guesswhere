@@ -2,6 +2,7 @@ import {
     getAmigos,
     getAmigosById,
     getAmigosConfirmadosById,
+    getPeticionesById,
     createAmigo,
     updateAmigo,
     deleteAmigo
@@ -36,6 +37,17 @@ export async function getAmigosConfirmadosByIdController(req, res) {
     } catch (err) {
         console.error("Error al obtener los amigos confirmados:", err); // Log the error for debugging
         res.status(500).json({ error: "Error al obtener los amigos confirmados" });
+    }
+}
+
+export async function getPeticionesByIdController(req, res) {
+    try {
+        const { id_jugador } = req.params;
+        const peticiones = await getPeticionesById(id_jugador);
+        res.json(peticiones);
+    } catch (err) {
+        console.error("Error al obtener las peticiones de amistad:", err); // Log the error for debugging
+        res.status(500).json({ error: "Error al obtener las peticiones de amistad" });
     }
 }
 

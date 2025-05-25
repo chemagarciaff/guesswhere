@@ -4,7 +4,6 @@ import gif1 from './../assets/gifs/5.gif';
 import './../style/pantallaResultado.css';
 
 const MapaResultado = () => {
-    // const { coordenadasSeleccionada, coordenadasObjetivo, distancia, setDistancia } = useContext(MapaContext);
     const { configuracionPartida, setConfiguracionPartida } = useContext(MapaContext);
     const [map, setMap] = useState(null);
     const [showGif, setShowGif] = useState(true); 
@@ -119,7 +118,7 @@ const MapaResultado = () => {
 
         setConfiguracionPartida(prev => ({
             ...prev,
-            distancia: dist.toFixed(2)
+            distancia: parseFloat(dist.toFixed(2))
         }));
 
         const bounds = new google.maps.LatLngBounds();

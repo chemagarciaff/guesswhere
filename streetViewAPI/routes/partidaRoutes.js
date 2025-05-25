@@ -14,3 +14,5 @@ partidaRouter.get('/:id', getPartidaByIdController);
 partidaRouter.get('/:id/jugador', getPartidasByIdJugadorController);
 partidaRouter.post('/', createPartidaController);
 partidaRouter.delete('/:id', deletePartidaByIdController);
+
+export default partidaRouter;

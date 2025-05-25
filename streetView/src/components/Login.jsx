@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './../style/login.css';
+import { MapaContext } from '../contextos/MapaContext';
 
 const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const { setUsuario } = useContext(MapaContext);
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        username: '',
+        password: ''
+    });
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
@@ -12,8 +17,8 @@ const Login = () => {
         setError('');
 
         try {
-            console.log(username, password);
-            const response = await fetch('http://localhost:3000/guesswhere/usuarios/login', {
+            const { username, password } = formData;
+            const response = await fetch('http://localhost:3000/guesswhere/usuario/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -22,14 +27,20 @@ const Login = () => {
             const data = await response.json();
 
             if (!response.ok) {
+
                 setError(data.error || "Error desconocido");
+
             } else {
-                alert("Login exitoso");
-                console.log(data);
-                // Aquí puedes redirigir o guardar el usuario en estado global
+                setUsuario(data.usuario);
+
+                sessionStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+                navigate('/inicio');
             }
         } catch (err) {
+
             setError("Error de conexión con el servidor");
+
         }
     };
 
@@ -40,9 +51,13 @@ const Login = () => {
                 <div className='login-form'>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="username">Usuario</label>
-                        <input type="text" id="username" name="username" required value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type="text" id="username" name="username" required value={formData.username} onChange={(e) => setFormData((prev) => {
+                            return { ...prev, username: e.target.value }
+                        })} />
                         <label htmlFor="password">Contraseña</label>
-                        <input type="password" id="password" name="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type="password" id="password" name="password" required value={formData.password} onChange={(e) => setFormData((prev) => {
+                            return { ...prev, password: e.target.value }
+                        })} />
                         {error && <p className="error">{error}</p>}
                         <button type="submit">Iniciar sesión</button>
                         <button type="submit"><Link to={"/register"}>Ir a Registro</Link></button>

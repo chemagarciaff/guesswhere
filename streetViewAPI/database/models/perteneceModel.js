@@ -27,7 +27,7 @@ export async function getUbicacionesPorCategoria(id_categoria) {
 
 export async function getUbicacionAleatoriaPorCategoria(id_categoria) {
     const [rows] = await db.execute(
-        `SELECT u.latitud, u.longitud
+        `SELECT u.latitud, u.longitud, u.id_ubicacion
          FROM pertenece p
          JOIN ubicacion u ON p.id_ubicacion = u.id_ubicacion
          WHERE p.id_categoria = ?

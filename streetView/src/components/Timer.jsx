@@ -4,8 +4,8 @@ import './../style/timer.css'
 import { MapaContext } from '../contextos/MapaContext';
 
 const Timer = () => {
-  const [segundos, setSegundos] = useState(40); // 2 minutos
   const { configuracionPartida, setConfiguracionPartida } = useContext(MapaContext);
+  const [segundos, setSegundos] = useState(configuracionPartida.tiempo); // 2 minutos
 
   const [isActive, setIsActive] = useState(true);
   const navigate = useNavigate(); // Hook para cambiar de ruta
@@ -13,16 +13,17 @@ const Timer = () => {
   useEffect(() => {
     let interval;
 
-    if (isActive && configuracionPartida.tiempo > 0) {
+    if (isActive) {
       interval = setInterval(() => {
-        setConfiguracionPartida((prev) => {
-          return {
-            ...prev,
-            tiempo: prev.tiempo - 1, // Decrementa el tiempo restante
-          };
+        setSegundos((prev) => {
+          if (prev > 0) {
+            return prev - 1;
+          }
+          setIsActive(false); // Detén el temporizador cuando llegue a 0
+          return 0;
         }); // Decrementa el contador
       }, 1000);
-    } else if (configuracionPartida.tiempo === 0) {
+    } else {
       setIsActive(false); // Detén el temporizador cuando llegue a 0
       navigate('/resultado'); // Redirige a otro componente al finalizar
     }
@@ -38,7 +39,7 @@ const Timer = () => {
 
   return (
     <div className='timer'>
-      <h2>Temporizador: {formatTime(configuracionPartida.tiempo)}</h2>
+      <h2>Temporizador: {formatTime(segundos)}</h2>
       {!isActive && configuracionPartida.tiempo === 0 && <p>¡Tiempo terminado!</p>}
     </div>
   );

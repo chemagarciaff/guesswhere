@@ -1,5 +1,5 @@
 import express from 'express';
-// import partidaRouter from './partidaRoutes.js';
+import partidaRouter from './partidaRoutes.js';
 import perteneceRouter from './perteneceRoutes.js';
 import amigoRouter from './amigoRoutes.js';
 import categoriaRouter from './categoriaRoutes.js';
@@ -15,6 +15,6 @@ apiRouter.use('/categoria', categoriaRouter);
 apiRouter.use('/favorito', favoritoRouter);
 apiRouter.use('/amigo', amigoRouter);
 apiRouter.use('/pertenece', perteneceRouter);
-// apiRouter.use('/partida', partidaRouter);
+apiRouter.use('/partida', partidaRouter);
 
 export default apiRouter;

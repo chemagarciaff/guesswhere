@@ -5,6 +5,8 @@ import {
     getUsuarioByIdController,
     getUsuarioByUsernameController,
     getUsuariosController,
+    getUsuariosPublicosController,
+    getUsuariosPrivadosController,
     loginUsuarioController,
     updateUsuarioController
 } from "../controllers/usuarioController.js";
@@ -12,6 +14,8 @@ import {
 const usuarioRouter = express.Router();
 
 usuarioRouter.get("/todos", getUsuariosController);
+usuarioRouter.get("/publicos", getUsuariosPublicosController);
+usuarioRouter.get("/privados", getUsuariosPrivadosController);
 usuarioRouter.get("/id/:id", getUsuarioByIdController);
 usuarioRouter.get("/username/:username", getUsuarioByUsernameController);
 usuarioRouter.post("/", createUsuarioController);

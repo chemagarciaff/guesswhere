@@ -4,6 +4,14 @@ export async function getUsuarios() {
     const [rows] = await db.execute("SELECT * FROM jugador");
     return rows;
 }
+export async function getUsuariosPublicos() {
+    const [rows] = await db.execute("SELECT * FROM jugador where privacidad = false ORDER BY puntuacion_total DESC");
+    return rows;
+}
+export async function getUsuariosPrivados() {
+    const [rows] = await db.execute("SELECT * FROM jugador where privacidad = true");
+    return rows;
+}
 
 export async function getUsuarioById(id) {
     const [rows] = await db.execute("SELECT * FROM jugador WHERE id_jugador = ?", [id]);
@@ -26,17 +34,21 @@ export async function createUsuario(usuarioData) {
     return { id: result.insertId, ...usuarioData };
 }
 
-// Actualizar usuario
-export async function updateUsuario(id, usuarioData) {
-    // Filtrar solo campos permitidos para actualizar
-    const camposPermitidos = ['nombre', 'apellido1', 'apellido2', 'email', 'username', 'puntuacion_media', 'rol'];
+export async function updateUsuario(id, puntuacionActual, usuarioData) {
+    const camposPermitidos = ['nombre', 'apellido1', 'apellido2', 'email', 'username', 'puntuacion_total', 'rol'];
     const campos = [];
     const valores = [];
 
     for (const key of camposPermitidos) {
         if (usuarioData[key] !== undefined) {
-            campos.push(`${key} = ?`);
-            valores.push(usuarioData[key]);
+            if (key === 'puntuacion_total') {
+                // Sumar la nueva puntuación a la actual
+                campos.push(`${key} = ?`);
+                valores.push(puntuacionActual + usuarioData[key]);
+            } else {
+                campos.push(`${key} = ?`);
+                valores.push(usuarioData[key]);
+            }
         }
     }
 
@@ -50,8 +62,10 @@ export async function updateUsuario(id, usuarioData) {
 
     await db.execute(sql, valores);
 
-    return { id_jugador: id, ...usuarioData };
+    // Devolver la puntuación total actualizada también
+    return { id_jugador: id, ...usuarioData, puntuacion_total: puntuacionActual + (usuarioData.puntuacion_total || 0) };
 }
+
 
 
 export async function deleteUsuarioById(id) {

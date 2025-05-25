@@ -1,7 +1,7 @@
 import { db } from '../db.js';
 
 export async function getRandomUbicacion() {
-  const [rows] = await db.execute("SELECT latitud, longitud FROM ubicacion ORDER BY RAND() LIMIT 1");
+  const [rows] = await db.execute("SELECT latitud, longitud, id_ubicacion FROM ubicacion ORDER BY RAND() LIMIT 1");
   return rows[0];
 }
 

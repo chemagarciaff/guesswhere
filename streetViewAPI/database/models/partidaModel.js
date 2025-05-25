@@ -27,14 +27,15 @@ export async function createPartida(partidaData) {
         id_jugador,
         id_categoria,
         tiempo,
-        desplazamiento
+        desplazamiento,
+        puntuacion,
     } = partidaData;
 
     const [result] = await db.execute(
         `INSERT INTO partida 
-        (id_ubicacion, ubicacion_marcada, id_jugador, id_categoria, tiempo, desplazamiento) 
-        VALUES (?, ?, ?, ?, ?, ?)`,
-        [id_ubicacion, ubicacion_marcada, id_jugador, id_categoria, tiempo, desplazamiento]
+        (id_ubicacion, ubicacion_marcada, id_jugador, id_categoria, tiempo, desplazamiento, puntuacion) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [id_ubicacion, ubicacion_marcada, id_jugador, id_categoria, tiempo, desplazamiento, puntuacion]
     );
 
     return { id_partida: result.insertId, ...partidaData };

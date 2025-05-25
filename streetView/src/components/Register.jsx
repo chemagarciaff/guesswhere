@@ -20,7 +20,7 @@ const Register = () => {
 
     const checkExists = async (field, value) => {
         try {
-            const res = await fetch(`http://localhost:3000/guesswhere/usuarios/${value}`);
+            const res = await fetch(`http://localhost:3000/guesswhere/usuario/${value}`);
             return res.ok; // Si existe, la API devuelve 200
         } catch {
             return false;
@@ -44,7 +44,7 @@ const Register = () => {
         // }
 
         try {
-            const response = await fetch('http://localhost:3000/guesswhere/usuarios/', {
+            const response = await fetch('http://localhost:3000/guesswhere/usuario/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...formData})

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import marker_1 from "./../assets/images/marker_1.png";
 import marker_2 from "./../assets/images/marker_2.png";
@@ -7,18 +7,41 @@ import marker_4 from "./../assets/images/marker_4.png";
 import marker_5 from "./../assets/images/marker_5.png";
 import "./../style/pantallaInicio.css";
 import Footer from './Footer';
+import { MapaContext } from '../contextos/MapaContext';
 
 const PantallaInicio = () => {
+  const { configuracionPartida, setConfiguracionPartida, usuario } = useContext(MapaContext)
   const [titulo, setTitulo] = useState("GuessWhere");
+  const [animate, setAnimate] = useState(false);
 
   const mostrarTitulo = (nuevoTitulo) => {
     setTitulo(nuevoTitulo);
+    setAnimate(true);
   };
 
-  return (
+  // Reinicia animación para permitir re-ejecución
+  useEffect(() => {
+    const timeout = setTimeout(() => setAnimate(false), 500);
+    console.log(usuario)
+    return () => clearTimeout(timeout);
+  }, [titulo]);
 
+  return (
     <div className='pantallaInicio'>
-      <p className='titulo'>{titulo}</p>
+      <p className={`titulo ${animate ? 'fade-in' : ''}`}>{titulo}</p>
+
+      <div className="usuario-info">
+        <img
+          src="https://i.pravatar.cc/40" // Usa una imagen por defecto o del backend si la tienes
+          alt="Usuario"
+          className="usuario-avatar"
+        />
+        <div className="usuario-data">
+          <p className='nombre'>{usuario.nombre} {usuario.apellido1}</p>
+          <p className=''>{usuario.puntuacion_total} puntos</p>
+          <p className='resto'>Nivel {usuario.nivel}</p>
+        </div>
+      </div>
 
       <Link to={'/configuracion'}>
         <img
@@ -67,8 +90,7 @@ const PantallaInicio = () => {
 
       <Footer />
     </div>
-
-  )
+  );
 };
 
 export default PantallaInicio;

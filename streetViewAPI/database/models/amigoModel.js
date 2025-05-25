@@ -15,8 +15,22 @@ export async function getAmigosById(id_jugador) {
 
 export async function getAmigosConfirmadosById(id_jugador) {
     const [rows] = await db.execute(
-        "SELECT * FROM amigo WHERE (id_jugador1 = ? OR id_jugador2 = ?) AND confirmacion = true",
-        [id_jugador, id_jugador]
+        `SELECT j.* 
+         FROM amigo a
+         JOIN jugador j ON ( (a.id_jugador1 = ? AND j.id_jugador = a.id_jugador2) OR (a.id_jugador2 = ? AND j.id_jugador = a.id_jugador1) )
+         WHERE (a.id_jugador1 = ? OR a.id_jugador2 = ?) AND a.confirmacion = true`,
+        [id_jugador, id_jugador, id_jugador, id_jugador]
+    );
+    return rows;
+}
+
+export async function getPeticionesById(id_jugador) {
+    const [rows] = await db.execute(
+        `SELECT j.*
+         FROM amigo a
+         JOIN jugador j ON a.id_jugador1 = j.id_jugador
+         WHERE a.id_jugador2 = ? AND a.confirmacion = false`,
+        [id_jugador]
     );
     return rows;
 }

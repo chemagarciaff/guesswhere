@@ -32,6 +32,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow: hidden;
+  /* font-family: 'japanese'; */
+    /* font-family: 'osaka'; */
+    font-family: 'supersonic';
+    /* font-family: 'transylvania'; */
+    /* font-family: fatkat; */
 }
 
 h1 {
