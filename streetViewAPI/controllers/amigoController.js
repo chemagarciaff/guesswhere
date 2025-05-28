@@ -2,6 +2,7 @@ import {
     getAmigos,
     getAmigosById,
     getAmigosConfirmadosById,
+    getJugadoresNoAmigos,
     getPeticionesById,
     createAmigo,
     updateAmigo,
@@ -50,6 +51,20 @@ export async function getPeticionesByIdController(req, res) {
         res.status(500).json({ error: "Error al obtener las peticiones de amistad" });
     }
 }
+
+
+export async function listarJugadoresNoAmigos(req, res) {
+    const id_jugador = parseInt(req.params.id);
+
+    try {
+        const jugadores = await getJugadoresNoAmigos(id_jugador);
+        res.json(jugadores);
+    } catch (error) {
+        console.error('Error al obtener jugadores no amigos:', error);
+        res.status(500).json({ error: 'Error al obtener los jugadores no amigos' });
+    }
+}
+
 
 // POST - Crear nuevo amigo
 export async function createAmigoController(req, res) {

@@ -1,30 +1,30 @@
 @keyframes fadeInLeft {
   from {
-    opacity: 0;
-    transform: translateX(30px);
+    /* opacity: 0; */
+    transform: translateX(1000px);
   }
 
   to {
-    opacity: 1;
+    /* opacity: 1; */
     transform: translateX(0);
   }
 }
 
 @keyframes fadeInRight {
   from {
-    opacity: 0;
-    transform: translateX(-30px);
+    /* opacity: 0; */
+    transform: translateX(-1000px);
   }
 
   to {
-    opacity: 1;
+    /* opacity: 1; */
     transform: translateX(0);
   }
 }
 
 
 /* Animación de entrada */
-@keyframes fadeInUp {
+/* @keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -34,7 +34,7 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
+} */
 
 
 
@@ -42,9 +42,12 @@
 
 .contenedor {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 4fr 3fr;
   width: 100%;
   height: 100vh;
+  background-image: url('./../assets/images/mapa_sin_markers.webp');
+  background-size: cover;
+  background-position: center center;
   /* font-family: fatkat, sans-serif; */
 }
 
@@ -55,11 +58,11 @@
   align-items: center;
   font-size: 2.5rem;
   color: white;
-  padding: 2rem;
   text-align: center;
   background: linear-gradient(315deg, #FF466F, #FFBD54, #7D81F4, #B546F0, #8CA9F0);
   box-shadow: 0 0 5em #000000aa;
   animation: fadeInLeft 0.7s ease-out;
+  position: relative;
 }
 
 .background p {
@@ -67,14 +70,13 @@
 }
 
 .otros__contenedor {
-  background-color: #f9f9f9;
+  background-color: #EEE;
   display: flex;
   gap: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 3rem;
-  /* border-right: 5px solid #FF466F; */
+  padding: 40px 70px;
   animation: fadeInRight 0.7s ease-out;
    position: relative;
   z-index: 0;
@@ -86,7 +88,6 @@
   position: absolute;
   inset: 0;
   padding: 4px;
-  /* grosor del "borde" */
   background: linear-gradient(90deg, #FF466F, #FFBD54, #7D81F4, #B546F0, #8CA9F0);
   z-index: -1;
   mask:
@@ -121,10 +122,30 @@
   transform: scale(1.05);
 }
 
-/* th, td {
-  padding: 0;
-  margin: 0;
-} */
+.flecha__desplazamiento {
+  position: absolute;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transform: translate(0%, -50%);
+  background-image: url('./../assets/images/flecha_desplazamiento.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: fadeInUp 0.5s ease;
+  width: 20px;
+  height: 20px;
+}
+.flecha__desplazamiento-izquierda {
+  top:center;
+  color: #fff;
+  left: 15px;
+  animation: fadeInUp 0.5s ease;
+}
+.flecha__desplazamiento-derecha {
+  top:center;
+  right: 15px;
+  animation: fadeInUp 0.5s ease;
+}
 
 
 /* CONFIGURACION PARTIDA */
@@ -180,10 +201,8 @@
 .formulario input,
 .formulario select {
   color: #333;
-  /* padding: 10px; */
   font-size: 1rem;
   border-radius: 12px;
-  /* border: none; */
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   background-color: #f7f7f7;
@@ -212,23 +231,18 @@
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 500px;
-  /* max-height: 500px;
-  overflow-y: scroll; */
   animation: fadeInUp 0.5s ease;
 
-  /* Truco para borde con degradado */
   position: relative;
   z-index: 0;
 }
+
 
 .ranking::before {
   content: '';
   position: absolute;
   inset: 0;
   padding: 4px;
-  /* grosor del "borde" */
   background: linear-gradient(90deg, #FF466F, #FFBD54, #7D81F4, #B546F0, #8CA9F0);
   border-radius: 20px;
   z-index: -1;
@@ -241,7 +255,6 @@
 
 .ranking .tabla {
   width: auto;
-  max-width: 500px;
   border-collapse: collapse;
 }
 
@@ -279,6 +292,22 @@
   color: #333;
 }
 
+.peticiones__listado {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.peticiones__amigos,
+.jugadores__disponibles {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+
 .otros__contenedor__amigos img {
   width: 40px;
   height: 40px;
@@ -288,6 +317,7 @@
 }
 
 .peticiones__amigos {
+  
   padding: 10px;
   color: #333;
   display: flex;
@@ -341,7 +371,10 @@
 }
 
 .amigos,
+.perfil__outlet,
+.jugadores__disponibles,
 .peticiones__amigos {
+  
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
@@ -352,6 +385,8 @@
 }
 
 .amigos::before,
+.perfil__outlet::before,
+.jugadores__disponibles::before,
 .peticiones__amigos::before {
   content: '';
   position: absolute;
@@ -395,4 +430,68 @@
 
 .peticion .noCheck:hover {
   background-color: #d32f2f;
+}
+
+
+
+/* PERFIL */
+.perfil {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.perfil__botones {
+  display: flex;
+  gap: 15px;
+}
+
+.perfil__boton {
+  cursor: pointer;
+  padding: 10px 30px;
+  margin: 0;
+}
+.perfil__outlet {
+  height: 100%;
+}
+
+.perfil__form {
+  color: #333;
+  padding: 30px 0
+}
+.perfil__form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 20px;
+  gap: 20px;
+  height: auto;
+}
+
+.perfil__form-data {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.avatar__img {
+  width: 130px;
+  border-radius: 50%;
+  border: 2px solid #FFBD54;
+}
+
+.perfil__form-data input,
+.perfil__form-data select {
+  color: #333;
+  font-size: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f7f7f7;
+  height: 40px;
+  border: 2px solid #FFBD54;
+  transition: all 0.2s ease;
+}
+
+.perfil__form-data input:focus,
+.perfil__form-data select:focus {
+  outline: none;
+  border: 4px solid #FFBD54;
 }

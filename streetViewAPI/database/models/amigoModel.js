@@ -35,6 +35,27 @@ export async function getPeticionesById(id_jugador) {
     return rows;
 }
 
+export async function getJugadoresNoAmigos(id_jugador) {
+    const [rows] = await db.execute(
+        `
+        SELECT *
+        FROM jugador
+        WHERE id_jugador != ?
+          AND privacidad = false
+          AND id_jugador NOT IN (
+              SELECT CASE
+                       WHEN id_jugador1 = ? THEN id_jugador2
+                       WHEN id_jugador2 = ? THEN id_jugador1
+                     END
+              FROM amigo
+              WHERE (id_jugador1 = ? OR id_jugador2 = ?)
+          )
+        `,
+        [id_jugador, id_jugador, id_jugador, id_jugador, id_jugador]
+    );
+    return rows;
+}
+
 
 // Crear nuevo Amigo
 export async function createAmigo(amigoData) {

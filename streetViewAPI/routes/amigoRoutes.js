@@ -4,6 +4,7 @@ import {
     getAmigosConfirmadosByIdController,
     getAmigosController,
     getPeticionesByIdController,
+    listarJugadoresNoAmigos,
     createAmigoController,
     updateAmigoController,
     deleteAmigoController
@@ -14,6 +15,7 @@ amigoRouter.get("/todos", getAmigosController);
 amigoRouter.get("/id/:id_jugador", getAmigosByIdController);
 amigoRouter.get("/confirmados/:id_jugador", getAmigosConfirmadosByIdController);
 amigoRouter.get("/peticiones/:id_jugador", getPeticionesByIdController);
+amigoRouter.get('/jugadores-disponibles/:id', listarJugadoresNoAmigos);
 amigoRouter.post("/", createAmigoController);
 amigoRouter.patch("/:id_jugador1/:id_jugador2", updateAmigoController);
 amigoRouter.delete("/:id_jugador1/:id_jugador2", deleteAmigoController);
