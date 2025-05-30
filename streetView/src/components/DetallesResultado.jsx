@@ -32,7 +32,7 @@ const DetallesResultado = () => {
                 body: JSON.stringify({
                     id_ubicacion: configuracionPartida.idUbicacion,
                     ubicacion_marcada: `${configuracionPartida.coordenadasSeleccionada.lat}, ${configuracionPartida.coordenadasSeleccionada.lon}`,
-                    id_jugador: usuario.id,
+                    id_jugador: usuario.id_jugador,
                     id_categoria: configuracionPartida.categoria,
                     tiempo: configuracionPartida.tiempo,
                     desplazamiento: configuracionPartida.distancia,
@@ -51,7 +51,7 @@ const DetallesResultado = () => {
             console.log("Partida registrada:", dataPartida);
 
             // 2. Actualizar puntuación total del usuario
-            const responseUsuario = await fetch(`http://localhost:3000/guesswhere/usuario/${usuario.id}`, {
+            const responseUsuario = await fetch(`http://localhost:3000/guesswhere/usuario/${usuario.id_jugador}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ puntuacion_total: configuracionPartida.puntos })

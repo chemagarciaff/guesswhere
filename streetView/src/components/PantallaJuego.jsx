@@ -6,8 +6,8 @@ import Timer from './Timer'
 
 const PantallaJuego = () => {
   return (
-    <div className='pantallaJuego'>
-      <div className="container">
+    <div className='w-screen h-screen overflow-hidden absolute top-0 left-0'>
+      <div className="w-full h-full relative">
 
         <StreetView />
 

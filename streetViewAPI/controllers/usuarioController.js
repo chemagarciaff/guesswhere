@@ -1,4 +1,6 @@
 import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
+// const jwt = require('jsonwebtoken');
 
 
 import {
@@ -6,6 +8,7 @@ import {
     deleteUsuarioById,
     getUsuarioById,
     getUsuarioByUsername,
+    getUsuarioByEmail,
     getUsuarios,
     getUsuariosPublicos,
     getUsuariosPrivados,
@@ -66,6 +69,17 @@ export async function getUsuarioByUsernameController(req, res) {
     }
 }
 
+export async function getUsuarioByEmailController(req, res) {
+    try {
+        const { email } = req.params;
+        const usuario = await getUsuarioByEmail(email); // Asegúrate de que el nombre de la función coincida
+        res.json(usuario);
+    } catch (err) {
+        console.error("Error al obtener el usuario:", err); // Log the error for debugging
+        res.status(500).json({ error: "Error al obtener el usuario" });
+    }
+}
+
 // POST - crear nuevo usuario
 export async function createUsuarioController(req, res) {
     try {
@@ -97,24 +111,33 @@ export async function loginUsuarioController(req, res) {
             return res.status(401).json({ error: "Usuario o contraseña incorrectos" });
         }
 
+        const token = jwt.sign(
+            { id: usuario._id, username: usuario.username },
+            process.env.JWT_SECRET || 'tu_secreto_super_secreto',
+            { expiresIn: '5h' } // opcional
+        );
+
+        return res.json({ usuario, token })
+
+
         // Opcional: generar token o sesión
-        res.json({
-            message: "Login exitoso",
-            usuario: {
-                id: usuario.id_jugador,
-                nombre: usuario.nombre,
-                apellido1: usuario.apellido1,
-                apellido2: usuario.apellido2,
-                username: usuario.username,
-                email: usuario.email,
-                rol: usuario.rol,
-                puntuacion_total: usuario.puntuacion_total,
-                privacidad: usuario.privacidad,
-                avatar: usuario.avatar,
-                nivel: usuario.nivel,
-                fecha_registro: usuario.fecha_registro,
-            }
-        });
+        // res.json({
+        //     message: "Login exitoso",
+        //     usuario: {
+        //         id: usuario.id_jugador,
+        //         nombre: usuario.nombre,
+        //         apellido1: usuario.apellido1,
+        //         apellido2: usuario.apellido2,
+        //         username: usuario.username,
+        //         email: usuario.email,
+        //         rol: usuario.rol,
+        //         puntuacion_total: usuario.puntuacion_total,
+        //         privacidad: usuario.privacidad,
+        //         avatar: usuario.avatar,
+        //         nivel: usuario.nivel,
+        //         fecha_registro: usuario.fecha_registro,
+        //     }
+        // });
     } catch (err) {
         console.error("Error en el login:", err); // Log the error for debugging
         res.status(500).json({ error: "Error en el login" });

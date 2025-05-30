@@ -32,8 +32,8 @@ export async function getPartidaByIdController(req, res) {
 
 export async function getPartidasByIdJugadorController(req, res) {
     try {
-        const { id_jugador } = req.params;
-        const partidas = await getPartidasByIdJugador(id_jugador);
+        const { id } = req.params;
+        const partidas = await getPartidasByIdJugador(id);
         res.json(partidas);
     } catch (err) {
         console.error("Error al obtener las partidas del jugador:", err); // Log the error for debugging

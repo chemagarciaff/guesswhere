@@ -37,12 +37,14 @@ const PantallaConfiguracionPartida = () => {
     }, []);
 
     return (
-        <div className='contenedor'>
+        <div className='w-full h-screen relative top-0 left-0 fondo-mapa flex justify-center items-center'>
 
-            <div className="otros__contenedor">
-                <div className='formulario'>
-                    <p>Selecciona las opciones de juego</p>
-                    <div>
+            <p className='absolute top-[35px] text-5xl letras-arcoiris w-fit left-1/2 -translate-x-1/2 '>Configura tu partida</p>
+
+            <div className='flex flex-col justify-center items-center w-fit max-w-[600px] max-h-[650px] bg-gray-100 bg-opacity-30 backdrop-blur-sm px-10 py-12 rounded-lg shadow-lg fadeUp borde-arcoiris'>
+                <div className=''>
+                    <p className='text-2xl mb-12'>Selecciona las opciones <br></br>de juego</p>
+                    <div className='grid grid-cols-2 gap-4 w-full max-w-md'>
 
                         <label>Tiempo (s):</label>
                         <input
@@ -52,16 +54,15 @@ const PantallaConfiguracionPartida = () => {
                             min={1}
                             value={configuracionPartida.tiempo}
                             onChange={handleChange}
+                            className='p-2 pl-4'
                         />
-                    </div>
-
-                    <div>
 
                         <label>Categoría:</label>
                         <select
                             name="categoria"
                             value={configuracionPartida.categoria}
                             onChange={handleChange}
+                            className='p-2 pl-4'
                         >
                             <option value={1}>Capitales del Mundo</option>
                             <option value={2}>Ciudades Historicas</option>
@@ -74,19 +75,15 @@ const PantallaConfiguracionPartida = () => {
                             <option value={9}>Libre</option>
                             {/* Agrega más opciones si las tienes */}
                         </select>
-                    </div>
-                </div>
-
                 <button className='boton'>
                     <Link to={'/partida'}>Jugar</Link>
                 </button>
                 <button className='boton'>
                     <Link to={'/inicio'}>Atras</Link>
                 </button>
-            </div>
+                    </div>
+                </div>
 
-            <div className="background background__amigos">
-                Configura tu partida
             </div>
         </div>
     );

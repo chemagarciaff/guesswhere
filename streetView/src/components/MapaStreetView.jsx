@@ -30,7 +30,6 @@ const StreetView = () => {
     }));
   };
 
-
   useEffect(() => {
     getCoordenadas();
   }, []);

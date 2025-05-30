@@ -1,13 +1,4 @@
 .pantallaInicio {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    top: 0;
-    left: 0;
-    background-image: url("./src/assets/images/mapa_sin_markers.webp");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -24,7 +15,6 @@
 .titulo {
     position: relative;
     top: 35px;
-    transition: opacity 0.3s ease;
     background: linear-gradient(90deg, #FF466F, #FFBD54, #7D81F4, #B546F0, #8CA9F0);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

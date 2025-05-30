@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
+import './style/general.css';
 import Login from "./components/Login";
 import PantallaAjustes from './components/PantallaAjustes';
 import PantallaAmigos from "./components/PantallaAmigos";
@@ -9,8 +10,9 @@ import PantallaPerfil from "./components/PantallaPerfil";
 import PantallaRanking from "./components/PantallaRanking";
 import PantallaResultado from './components/PantallaResultado';
 import Register from "./components/Register";
-import { MapaProvider } from './contextos/MapaContext';
 import PantallaConfiguracionPartida from "./components/PantallaConfiguracionPartida";
+import PrivateRoute from './components/PrivateRoutes';
+import { MapaProvider } from './contextos/MapaContext';
 
 function App() {
   return (
@@ -19,14 +21,45 @@ function App() {
         <Routes>
           <Route index element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="inicio" element={<PantallaInicio />} />
-          <Route path="configuracion" element={<PantallaConfiguracionPartida />} />
-          <Route path="partida" element={<PantallaJuego />} />
-          <Route path="ranking" element={<PantallaRanking />} />
-          <Route path="amigos" element={<PantallaAmigos />} />
-          <Route path="perfil" element={<PantallaPerfil />} />
-          <Route path="ajustes" element={<PantallaAjustes />} />
-          <Route path="resultado" element={<PantallaResultado />} />
+          <Route path="inicio" element={
+            <PrivateRoute>
+              <PantallaInicio />
+            </PrivateRoute>} />
+          <Route path="configuracion" element={
+            <PrivateRoute>
+              <PantallaConfiguracionPartida />
+            </PrivateRoute>}
+          />
+          <Route path="partida" element={
+            <PrivateRoute>
+              <PantallaJuego />
+            </PrivateRoute>}
+          />
+
+          <Route path="ranking" element={
+            <PrivateRoute>
+              <PantallaRanking />
+            </PrivateRoute>}
+          />
+          <Route path="amigos" element={
+            <PrivateRoute>
+              <PantallaAmigos />
+            </PrivateRoute>}
+          />
+          <Route path="perfil" element={
+            <PrivateRoute>
+              <PantallaPerfil />
+            </PrivateRoute>}
+          />
+          <Route path="ajustes" element={
+            <PrivateRoute><PantallaAjustes />
+            </PrivateRoute>}
+          />
+          <Route path="resultado" element={
+            <PrivateRoute>
+              <PantallaResultado />
+            </PrivateRoute>}
+          />
         </Routes>
       </MapaProvider>
     </BrowserRouter>

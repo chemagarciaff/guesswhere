@@ -8,6 +8,14 @@
 }
 
 @font-face {
+  font-family: neuro;
+  src: url(./assets/fonts/Neuropol.otf);
+}
+@font-face {
+  font-family: dune;
+  src: url(./assets/fonts/Dune_Rise.otf);
+}
+@font-face {
   font-family: osaka;
   src: url(./assets/fonts/osaka-re.ttf);
 }

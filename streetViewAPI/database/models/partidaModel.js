@@ -15,7 +15,14 @@ export async function getPartidaById(id) {
 
 // Get Partidas by player ID
 export async function getPartidasByIdJugador(playerId) {
-    const [rows] = await db.execute("SELECT * FROM partida WHERE id_jugador = ?", [playerId]);
+    const [rows] = await db.execute(
+        `SELECT * 
+            FROM partida
+            JOIN ubicacion ON partida.id_ubicacion = ubicacion.id_ubicacion
+            JOIN categoria ON partida.id_categoria = categoria.id_categoria
+            WHERE partida.id_jugador = ?`,
+        [playerId]
+    );
     return rows;
 }
 

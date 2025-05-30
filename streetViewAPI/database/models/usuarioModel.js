@@ -24,6 +24,11 @@ export async function getUsuarioByUsername(username) {
     return rows[0];
 }
 
+export async function getUsuarioByEmail(email) {
+    const [rows] = await db.execute("SELECT * FROM jugador WHERE email = ?", [email]);
+    return rows[0];
+}
+
 // Crear nuevo usuario
 export async function createUsuario(usuarioData) {
     const { nombre, apellido1, apellido2, email, password, username } = usuarioData; // ajusta los campos según tu tabla

@@ -36,6 +36,31 @@ export const MapaProvider = ({ children }) => {
         };
   });
 
+  const [ajustes, setAjustes] = useState({
+    sonido: false,
+    pos_marker1: {
+      left: 270,
+      top: 254
+    },
+    pos_marker2: {
+      left: 470,
+      top: 389
+    },
+    pos_marker3: {
+      left: 713,
+      top: 299
+    },
+    pos_marker4: {
+      left: 936,
+      top: 202
+    },
+    pos_marker5: {
+      left: 1150,
+      top: 321
+    },
+    width_marker: 0
+  })
+
   // Guardar en sessionStorage cada vez que el usuario cambia
   useEffect(() => {
     sessionStorage.setItem("usuario", JSON.stringify(usuario));
@@ -46,7 +71,8 @@ export const MapaProvider = ({ children }) => {
       configuracionPartida,
       setConfiguracionPartida,
       usuario,
-      setUsuario
+      setUsuario,
+      ajustes
     }}>
       {children}
     </MapaContext.Provider>
