@@ -24,8 +24,13 @@ const Timer = () => {
         }); // Decrementa el contador
       }, 1000);
     } else {
-      setIsActive(false); // Detén el temporizador cuando llegue a 0
-      navigate('/resultado'); // Redirige a otro componente al finalizar
+      if(configuracionPartida.coordenadasSeleccionada.lat === 0 && configuracionPartida.coordenadasSeleccionada.lon === 0) {
+        setIsActive(false); // Detén el temporizador cuando llegue a 0
+        navigate('/selector'); // Redirige a otro componente al finalizar
+      } else {
+        setIsActive(false); // Detén el temporizador cuando llegue a 0
+        navigate('/resultado'); // Redirige a otro componente al finalizar
+      }
     }
 
     return () => clearInterval(interval); // Limpiar intervalo si el componente se desmonta
@@ -38,7 +43,7 @@ const Timer = () => {
   };
 
   return (
-    <div className='timer'>
+    <div className='aboslute top-[50px] left-[45%] w-[180px] z-5 bg-[#00000099]'>
       <h2>Temporizador: {formatTime(segundos)}</h2>
       {!isActive && configuracionPartida.tiempo === 0 && <p>¡Tiempo terminado!</p>}
     </div>

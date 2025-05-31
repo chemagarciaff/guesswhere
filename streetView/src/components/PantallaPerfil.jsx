@@ -6,6 +6,7 @@ const PantallaPerfil = () => {
   const { usuario, setUsuario } = useContext(MapaContext);
   const [avatar, setAvatar] = useState(null);
   const [partidasJugadas, setPartidasJugadas] = useState([]);
+  const [ubicacionesFavoritas, setUbicacionesFavoritas] = useState([]);
   const [mostrar, setMostrar] = useState({
     datosPersonales: true,
     ubicacionesFavoritas: false,
@@ -24,8 +25,20 @@ const PantallaPerfil = () => {
     setPartidasJugadas(data)
   }
 
+  const getUbicacionesFaavoritas = async () => {
+    const response = await fetch(`http://localhost:3000/guesswhere/favorito/id/${usuario.id_jugador}`);
+    if (!response.ok) {
+      console.error("Error fetching partidas jugadas:", response.statusText);
+      return;
+    }
+    const data = await response.json()
+    console.log(data)
+    setUbicacionesFavoritas(data)
+  }
+
   useEffect(() => {
     getPartidasJugadas()
+    getUbicacionesFaavoritas()
   }, [])
 
   const handleAvatarClick = () => {
@@ -39,6 +52,29 @@ const PantallaPerfil = () => {
     }
   };
 
+      const fetchAvatar = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${id}`);
+            if (!response.ok) throw new Error('Error al cargar avatar');
+
+            // La respuesta es JSON, no imagen binaria directa
+            const json = await response.json();
+
+            // Extraemos el array de bytes (asegúrate que la estructura coincida)
+            const byteArray = new Uint8Array(json.avatar.data);
+
+            // Creamos el Blob
+            const blob = new Blob([byteArray], { type: 'image/png' });
+
+            // Generamos la URL para el blob
+            const url = URL.createObjectURL(blob);
+
+            return url
+        } catch (error) {
+            console.error('Error al cargar avatar:', error);
+        }
+    };
+
 
   let navigate = useNavigate()
   const handleRight = () => {
@@ -49,13 +85,11 @@ const PantallaPerfil = () => {
   }
 
   return (
-    <div className='w-full h-screen relative fondo-mapa flex flex-col items-center py-8 justify-between'>
+    <div className="w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8">
 
-      {/* Título */}
-      <p className='text-5xl letras-arcoiris'>Perfil</p>
+      <p className="text-5xl letras-arcoiris w-fit absolute top-7 left-1/2 -translate-x-1/2">Perfil</p>
 
-      {/* Contenedor central: opciones arriba + contenido que ocupa todo lo demás */}
-      <div className="flex flex-col flex-grow w-full max-w-[1000px] px-6 py-4 gap-4">
+      <div className="lg:h-[80vh] px-12 gap-10 flex flex-col min-h-0 overflow-hidden w-full pb-4">
 
         {/* Opciones arriba */}
         <div className='flex gap-4 justify-center'>
@@ -78,7 +112,7 @@ const PantallaPerfil = () => {
               <form className="flex flex-wrap gap-8">
                 <div className="border w-[250px] h-[250px]">
                   <img
-                    src="https://i.pravatar.cc/250"
+                    src={fetchAvatar(usuario.id_jugador) || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                     alt="avatar"
                     className='object-cover w-full h-full'
                     onClick={handleAvatarClick}
@@ -94,11 +128,11 @@ const PantallaPerfil = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-2 flex-1">
-                  <label>Nombre <input type="text" value={usuario.nombre} className="input" /></label>
-                  <label>Primer Apellido <input type="text" value={usuario.apellido1} className="input" /></label>
-                  <label>Segundo Apellido <input type="text" value={usuario.apellido2} className="input" /></label>
-                  <label>Username <input type="text" value={usuario.username} className="input" /></label>
-                  <label>Email <input type="email" value={usuario.email} className="input" /></label>
+                  <label>Nombre <input readOnly type="text" value={usuario.nombre} className="" /></label>
+                  <label>Primer Apellido <input readOnly type="text" value={usuario.apellido1} className="" /></label>
+                  <label>Segundo Apellido <input readOnly type="text" value={usuario.apellido2} className="" /></label>
+                  <label>Username <input readOnly type="text" value={usuario.username} className="" /></label>
+                  <label>Email <input readOnly type="email" value={usuario.email} className="" /></label>
                   <div>
                     <input type="checkbox" id="privacidad" />
                     <label htmlFor="privacidad" className="ml-2">Acepto la política de privacidad</label>
@@ -110,13 +144,49 @@ const PantallaPerfil = () => {
           )}
 
           {mostrar.ubicacionesFavoritas && (
-            <div className="h-full overflow-auto p-2">
-              <p>Ubicaciones favoritas</p>
+            <div className="h-full overflow-auto p-2 scroll-invisible">
+               <table className='w-full text-sm'>
+                <thead className='border-b'>
+                  <tr className=''>
+                    <th className='text-md pb-3'>#</th>
+                    <th className='text-md pb-3'>País</th>
+                    <th className='text-md pb-3'>Contienente</th>
+                    <th className='text-md pb-3'>Latitud</th>
+                    <th className='text-md pb-3'>Longitud</th>
+                    <th className='text-md pb-3'></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ubicacionesFavoritas.map((ubicacion, index) => {
+                    return (
+                      <tr key={index} className="border-b">
+                        <td>{ubicacion.id_ubicacion}</td>
+                        <td>{ubicacion.pais}</td>
+                        <td>{ubicacion.continente}</td>
+                        <td>{ubicacion.latitud}</td>
+                        <td>{ubicacion.longitud}</td>
+                        <td>
+                          <Link
+                            to="/verFavorito"
+                            state={{
+                              latitud: ubicacion.latitud,
+                              longitud: ubicacion.longitud
+                            }}
+                          >
+                            <div className="text-white hover:underline">Ver ubicación</div>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+
+                </tbody>
+              </table>
             </div>
           )}
 
           {mostrar.partidasJugadas && (
-            <div className='h-full overflow-y-auto scroll-invisible'>
+            <div className='h-full overflow-y-auto p-2 scroll-invisible'>
               <table className='w-full text-sm'>
                 <thead className='border-b'>
                   <tr className=''>
@@ -128,15 +198,37 @@ const PantallaPerfil = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {partidasJugadas.map((partida, index) => (
-                    <tr key={index} className='border-b'>
-                      <td>{partida.puntuacion}</td>
-                      <td>{partida.desplazamiento}</td>
-                      <td>{partida.tiempo}</td>
-                      <td>{partida.nombre}</td>
-                      <td><button className="text-blue-600 hover:underline">Ver resultado</button></td>
-                    </tr>
-                  ))}
+                  {partidasJugadas.map((partida, index) => {
+                    const latObjetivo = Number(partida.latitud);
+                    const lonObjetivo = Number(partida.longitud);
+
+                    const [latMarcada, lonMarcada] = partida.ubicacion_marcada
+                      .split(',')
+                      .map(coord => Number(coord.trim()));
+
+                    return (
+                      <tr key={index} className="border-b">
+                        <td>{partida.puntuacion}</td>
+                        <td>{partida.desplazamiento}</td>
+                        <td>{partida.tiempo}</td>
+                        <td>{partida.nombre}</td>
+                        <td>
+                          <Link
+                            to="/verResultado"
+                            state={{
+                              latObjetivo,
+                              lonObjetivo,
+                              latMarcada,
+                              lonMarcada
+                            }}
+                          >
+                            <div className="text-white hover:underline">Ver resultado</div>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+
                 </tbody>
               </table>
             </div>
@@ -145,19 +237,11 @@ const PantallaPerfil = () => {
         </div>
       </div>
 
-      {/* Botón al fondo */}
-      <div className=''>
-        <button className='boton'>
-          <Link to="/inicio">Volver</Link>
-        </button>
+      <div className="text-center absolute top-7 left-7">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" className=' hover:scale-125 transition-all duration-300 cursor-pointer' onClick={() => (navigate("/inicio"))}><path fill='#FFBD54' d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></svg>
       </div>
-    </div>
+    </div >
   )
 }
 
 export default PantallaPerfil
-{/* <div className="background background__perfil">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='flecha__desplazamiento flecha__desplazamiento-izquierda' onClick={handleLeft}><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></svg>
-  <p>perfil</p>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='flecha__desplazamiento flecha__desplazamiento-derecha' ><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" /></svg>
-</div> */}

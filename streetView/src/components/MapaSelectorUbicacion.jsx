@@ -39,10 +39,6 @@ function SelectorUbicacion() {
   };
 
   const handleClick = () => {
-    setConfiguracionPartida(prev => ({
-      ...prev,
-      tiempo: 0
-    }))
     navigate("/resultado")
   }
 
@@ -63,13 +59,13 @@ function SelectorUbicacion() {
   }, [configuracionPartida.coordenadasSeleccionada]);
 
   return (
-    <div className="w-fit h-fit z-10 absolute bottom-10 right-20 m-4 p-2 bg-white rounded shadow-lg ">
+    <div className="z-10 w-[300px] h-[150px] hover:w-[500px] hover:h-[300px] absolute bottom-10 right-20 m-4 p-2 rounded shadow-lg flex flex-col gap-2">
       <div
         id="guess-map"
         ref={mapRef}
-        className="w-[250px] h-[100px] hover:w-[500px] hover:h-[300px] transition-all duration-300 ease-in-out"
+        className="w-full h-full  transition-all duration-300 ease-in-out"
       />
-      <div className="text-black cursor-pointer hover:w-[500px]" onClick={handleClick}> Comprobar</div>
+      <div className="text-white cursor-pointer h-[40px] fondo-arcoiris" onClick={handleClick}> Comprobar</div>
     </div>
   );
 }

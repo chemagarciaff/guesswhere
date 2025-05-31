@@ -12,6 +12,7 @@ import {
     getUsuarios,
     getUsuariosPublicos,
     getUsuariosPrivados,
+    getAvatarById,
     updateUsuario
 } from "../database/models/usuarioModel.js";
 
@@ -80,13 +81,37 @@ export async function getUsuarioByEmailController(req, res) {
     }
 }
 
+export async function getAvatarByIdController(req, res) {
+    try {
+        const { id } = req.params;
+        const avatar = await getAvatarById(id); // Esta función debe devolver un buffer o null
+
+        if (!avatar) {
+            return res.status(404).json({ error: "Avatar no encontrado" });
+        }
+
+        res.setHeader('Content-Type', 'image/jpeg'); // O el tipo que corresponda
+        res.send(avatar); // Aquí envías el buffer directamente al cliente
+
+    } catch (err) {
+        console.error("Error al obtener el avatar:", err);
+        res.status(500).json({ error: "Error al obtener el avatar" });
+    }
+}
+
 // POST - crear nuevo usuario
 export async function createUsuarioController(req, res) {
     try {
-        const { password } = req.body;
+        const { nombre, apellido1, apellido2, email, username, password } = req.body;
+        const avatar = req.file.buffer;
         const passwordHashed = await argon2.hash(password);
         const usuario = await createUsuario({
-            ...req.body,
+            nombre,
+            apellido1,
+            apellido2: apellido2 || '', // Asegúrate de que apellido2 sea opcional
+            email,
+            username,
+            avatar, // Asegúrate de que req.file esté definido
             password: passwordHashed
         });
         res.status(201).json(usuario);

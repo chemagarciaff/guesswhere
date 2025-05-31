@@ -5,6 +5,7 @@ import "./../style/otrasPantallas.css"
 const PantallaRanking = () => {
 
   const [usuariosPublicos, setUsuariosPublicos] = useState([])
+  const navigate = useNavigate()
 
   const getUsuariosPublicos = async () => {
     const response = await fetch('http://localhost:3000/guesswhere/usuario/publicos')
@@ -13,28 +14,19 @@ const PantallaRanking = () => {
     setUsuariosPublicos(data)
   }
 
-  let navigate = useNavigate()
-  const handleRight = () => {
-    navigate('/amigos')
-  }
-  const handleLeft = () => {
-    navigate('/configuracion')
-  }
-
   useEffect(() => {
     getUsuariosPublicos()
   }
     , [])
 
-  return (<div className='w-full h-screen fondo-mapa flex flex-col py-8 justify-between items-center'>
+  return (
+  <div className="w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8">
 
-    {/* Título centrado arriba */}
-    <p className='text-5xl font-bold letras-arcoiris text-center'>Ranking</p>
+      <p className="text-5xl letras-arcoiris w-fit absolute top-7 left-1/2 -translate-x-1/2">Perfil</p>
 
-    {/* Contenedor tabla */}
-    <div className='flex flex-col justify-center items-center w-full max-w-[900px] max-h-[650px] bg-white/20 backdrop-blur-md px-10 py-12 rounded-xl shadow-2xl border border-white/30'>
+      <div className="lg:h-[80vh] px-12 gap-10 flex flex-col min-h-0 overflow-hidden w-full pb-4 ">
 
-      <table className='w-full text-sm sm:text-base text-left table-auto'>
+      <table className='w-full text-sm sm:text-base text-left table-auto bg-gray-100 bg-opacity-30 backdrop-blur-sm'>
         <thead className='text-white/80 border-b border-white/30'>
           <tr>
             <th className='py-2 px-3 text-center'>#</th>
@@ -69,10 +61,8 @@ const PantallaRanking = () => {
         </tbody>
       </table>
     </div>
-    <div className="text-center mt-4">
-      <button className="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800">
-        <Link to="/inicio">Volver</Link>
-      </button>
+    <div className="text-center absolute top-7 left-7">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" className=' hover:scale-125 transition-all duration-300 cursor-pointer' onClick={() => (navigate("/inicio"))}><path fill='#FFBD54' d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></svg>
     </div>
   </div>
 

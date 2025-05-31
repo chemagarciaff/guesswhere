@@ -6,8 +6,14 @@ export async function getFavoritos() {
 }
 
 export async function getFavoritosByIdJugador(id_jugador) {
-    const [rows] = await db.execute("SELECT * FROM favorito WHERE id_jugador = ?", [id_jugador]);
-    return rows;
+  const [rows] = await db.execute(
+    `SELECT u.* 
+     FROM favorito f
+     JOIN ubicacion u ON f.id_ubicacion = u.id_ubicacion
+     WHERE f.id_jugador = ?`,
+    [id_jugador]
+  );
+  return rows;
 }
 
 export async function createFavorito(favoritoData) {

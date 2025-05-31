@@ -8,7 +8,8 @@ const Register = () => {
         apellido2: '',
         email: '',
         username: '',
-        password: ''
+        password: '',
+        avatar: ''
     });
     const [campoError, setCampoError] = useState({});
 
@@ -16,50 +17,58 @@ const Register = () => {
 
         let error = '';
 
-        if ((!value.trim() || value.trim() === '') && name !== 'apellido2') {
-            return error = 'Este campo es obligatorio';
-        }
+        if (name != 'avatar') {
 
-        if (name === 'email') {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const emailExists = await checkRepeatValue(name, value);
-            console.log(emailExists)
-            if (emailExists) {
-                error = 'El email ya está en uso';
-                return error;
-            }
-            if (!emailRegex.test(value)) {
-                error = 'Correo inválido';
-            }
-        }
 
-        if (name === 'username') {
-            const usernameExists = await checkRepeatValue(name, value);
-            if (usernameExists) {
-                error = 'El nombre de usuario ya está en uso';
-                return error;
+            if ((!value.trim() || value.trim() === '') && name !== 'apellido2') {
+                return error = 'Este campo es obligatorio';
             }
-            const usernameRegex = /^[a-zA-Z0-9._-]+$/;
-            if (!usernameRegex.test(value)) {
-                error = 'Solo letras, números, guiones y puntos';
-            }
-        }
 
-        if (name === 'password') {
-            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-            if (!passwordRegex.test(value)) {
-                error = 'Mínimo 8 caracteres, una mayúscula, un número y un símbolo';
+            if (name === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const emailExists = await checkRepeatValue(name, value);
+                console.log(emailExists)
+                if (emailExists) {
+                    error = 'El email ya está en uso';
+                    return error;
+                }
+                if (!emailRegex.test(value)) {
+                    error = 'Correo inválido';
+                }
             }
-        }
 
-        return error;
+            if (name === 'username') {
+                const usernameExists = await checkRepeatValue(name, value);
+                if (usernameExists) {
+                    error = 'El nombre de usuario ya está en uso';
+                    return error;
+                }
+                const usernameRegex = /^[a-zA-Z0-9._-]+$/;
+                if (!usernameRegex.test(value)) {
+                    error = 'Solo letras, números, guiones y puntos';
+                }
+            }
+
+            if (name === 'password') {
+                const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+                if (!passwordRegex.test(value)) {
+                    error = 'Mínimo 8 caracteres, una mayúscula, un número y un símbolo';
+                }
+            }
+
+            return error;
+        }
     };
 
 
-
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value.trim() }));
+        const { name, value, files, type } = e.target;
+
+        if (type === 'file') {
+            setFormData(prev => ({ ...prev, [name]: files[0] }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value.trim() }));
+        }
     };
 
     const validateData = async (e) => {
@@ -101,35 +110,35 @@ const Register = () => {
         }
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const isValid = await validateAllFields();
-
         if (!isValid) return;
 
+        const data = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            data.append(key, value);
+        });
 
         try {
             const response = await fetch('http://localhost:3000/guesswhere/usuario/', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...formData })
+                body: data // no pongas headers aquí, fetch los asigna automáticamente
             });
 
-            const data = await response.json();
+            const result = await response.json();
             if (!response.ok) {
-                setError(data.error || "Error desconocido");
+                setCampoError({ general: result.error || "Error desconocido" });
             } else {
                 alert("Registro exitoso");
-                console.log(data);
-                // Redirigir o guardar usuario globalmente
+                console.log(result);
             }
         } catch (err) {
-            setError("Error de conexión con el servidor");
+            setCampoError({ general: "Error de conexión con el servidor" });
         }
+    };
 
-    }
 
     return (
         <div className="w-full h-screen flex justify-center items-center fondo-mapa">
@@ -211,6 +220,16 @@ const Register = () => {
                         />
                         {campoError.password && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.password}</p>}
 
+                        <label htmlFor="avatar" className="text-gray-800 font-semibold  flex items-center">Avatar</label>
+                        <input
+                            type="file"
+                            id="avatar"
+                            name="avatar"
+                            accept='image/*'
+                            onChange={handleChange}
+                            className="text-gray-800 text-[15px] rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700"
+                        />
+
                         <div className='col-span-2 flex items-center justify-center mt-4 gap-4'>
 
                             <button
@@ -219,15 +238,15 @@ const Register = () => {
                             >
                                 Registrarse
                             </button>
-                                <div 
+                            <div
                                 className='bg-gris hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 w-1/2'>
-                            <Link
-                                to="/"
-                            >
-                                <p className='w-full h-full'>Volver</p>
-                                    
-                            </Link>
-                                </div>
+                                <Link
+                                    to="/"
+                                >
+                                    <p className='w-full h-full'>Volver</p>
+
+                                </Link>
+                            </div>
                         </div>
                     </form>
 

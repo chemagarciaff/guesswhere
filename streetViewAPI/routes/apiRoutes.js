@@ -1,4 +1,6 @@
 import express from 'express';
+import cors from 'cors';
+import multer from 'multer';
 import partidaRouter from './partidaRoutes.js';
 import perteneceRouter from './perteneceRoutes.js';
 import amigoRouter from './amigoRoutes.js';
@@ -8,6 +10,7 @@ import ubicacionRouter from './ubicacionRoutes.js';
 import usuarioRouter from './usuarioRoutes.js';
 
 const apiRouter = express.Router();
+apiRouter.use(cors())
 
 apiRouter.use('/ubicacion', ubicacionRouter);
 apiRouter.use('/usuario', usuarioRouter);

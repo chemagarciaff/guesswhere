@@ -62,7 +62,7 @@ const StreetView = () => {
   return (
     <div
       ref={streetViewRef}
-      className="streetview"
+      className="absolute right-0 top-0 h-screen w-[115%]"
     />
   );
 };

@@ -13,6 +13,9 @@ import Register from "./components/Register";
 import PantallaConfiguracionPartida from "./components/PantallaConfiguracionPartida";
 import PrivateRoute from './components/PrivateRoutes';
 import { MapaProvider } from './contextos/MapaContext';
+import SelectorUbicacionGigante from "./components/MapaSelectorUbicacionGigante";
+import VerResultado from "./components/VerResultado";
+import StreetViewFav from "./components/MapaStreetViewFav";
 
 function App() {
   return (
@@ -28,6 +31,11 @@ function App() {
           <Route path="configuracion" element={
             <PrivateRoute>
               <PantallaConfiguracionPartida />
+            </PrivateRoute>}
+          />
+          <Route path="selector" element={
+            <PrivateRoute>
+              <SelectorUbicacionGigante />
             </PrivateRoute>}
           />
           <Route path="partida" element={
@@ -58,6 +66,16 @@ function App() {
           <Route path="resultado" element={
             <PrivateRoute>
               <PantallaResultado />
+            </PrivateRoute>}
+          />
+          <Route path="verFavorito" element={
+            <PrivateRoute>
+              <StreetViewFav />
+            </PrivateRoute>}
+          />
+          <Route path="verResultado" element={
+            <PrivateRoute>
+              <VerResultado />
             </PrivateRoute>}
           />
         </Routes>

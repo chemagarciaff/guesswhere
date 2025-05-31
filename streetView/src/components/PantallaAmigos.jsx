@@ -9,8 +9,8 @@ const PantallaAmigos = () => {
   const [noAmigos, setNoAmigos] = useState([])
   const { usuario } = useContext(MapaContext);
   const [togglePeticiones, setTogglePeticiones] = useState(true)
-
   let navigate = useNavigate()
+
   const handleRight = () => {
     navigate('/perfil')
   }
@@ -62,6 +62,29 @@ const PantallaAmigos = () => {
     }
   }
 
+  const fetchAvatar = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${id}`);
+            if (!response.ok) throw new Error('Error al cargar avatar');
+
+            // La respuesta es JSON, no imagen binaria directa
+            const json = await response.json();
+
+            // Extraemos el array de bytes (asegúrate que la estructura coincida)
+            const byteArray = new Uint8Array(json.avatar.data);
+
+            // Creamos el Blob
+            const blob = new Blob([byteArray], { type: 'image/png' });
+
+            // Generamos la URL para el blob
+            const url = URL.createObjectURL(blob);
+
+            return url
+        } catch (error) {
+            console.error('Error al cargar avatar:', error);
+        }
+    };
+
   const handleAmistad = async (id_jugador1, id_jugador2) => {
     const response = await fetch(`http://localhost:3000/guesswhere/amigo/${id_jugador1}/${id_jugador2}`, {
       method: 'PATCH',
@@ -98,11 +121,11 @@ const PantallaAmigos = () => {
   }, [])
 
   return (
-    <div className="w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-between py-8 gap-8">
+    <div className="w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8">
 
-      <p className="text-5xl letras-arcoiris w-fit">Amigos</p>
+      <p className="text-5xl letras-arcoiris w-fit absolute top-7 left-1/2 -translate-x-1/2">Amigos</p>
 
-      <div className="flex-1 px-12 py-8 grid gap-16 grid-cols-1 lg:grid-cols-[2fr_3fr] lg:grid-rows-[auto] min-h-0 overflow-hidden w-full">
+      <div className="h-[70vh] px-12 grid gap-10 grid-cols-1 lg:grid-cols-[2fr_3fr] lg:grid-rows-[auto] min-h-0 overflow-hidden w-full">
 
         {/* Peticiones de amistad */}
         {togglePeticiones && (
@@ -116,11 +139,11 @@ const PantallaAmigos = () => {
             {peticiones.length !== 0 ? (
               <div className="space-y-2">
                 {peticiones.map((peticion) => (
-                  <div key={peticion.id_jugador} className="flex items-center gap-4 p-2 bg-gray-100 rounded">
-                    <img src="https://i.pravatar.cc/40" alt={peticion.username} className="avatar w-10 h-10 rounded-full" />
+                  <div key={peticion.id_jugador} className="flex items-center gap-4 p-2 bg-gray-100 rounded text-black">
+                    <img src={fet} alt={peticion.username} className="avatar w-10 h-10 rounded-full" />
                     <span className="flex-1">{peticion.nombre} {peticion.apellido1}</span>
-                    <svg onClick={() => handleAmistad(peticion.id_jugador, usuario.id)} className="w-6 h-6 text-green-600 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="..." /></svg>
-                    <svg onClick={() => handleNoAmistad(peticion.id_jugador, usuario.id)} className="w-6 h-6 text-red-600 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="..." /></svg>
+                    <svg onClick={() => handleAmistad(peticion.id_jugador, usuario.id_jugador)} className="w-6 h-6 text-green-600 cursor-pointer border-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="..." /></svg>
+                    <svg onClick={() => handleNoAmistad(peticion.id_jugador, usuario.id_jugador)} className="w-6 h-6 text-red-600 cursor-pointer border-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="..." /></svg>
                   </div>
                 ))}
               </div>
@@ -142,11 +165,28 @@ const PantallaAmigos = () => {
             {noAmigos.length !== 0 ? (
               <div className="space-y-2">
                 {noAmigos.map((peticion) => (
-                  <div key={peticion.id_jugador} className="flex items-center gap-4 p-2 bg-gray-100 rounded">
-                    <img src="https://i.pravatar.cc/40" alt={peticion.username} className="avatar w-10 h-10 rounded-full" />
-                    <span className="flex-1">{peticion.nombre} {peticion.apellido1}</span>
-                    <button onClick={() => handleEnviarSolicitud(peticion.id_jugador)} className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Añadir</button>
+                  <div
+                    key={peticion.id_jugador}
+                    className="group flex items-center gap-4 p-2 bg-gray-100 rounded hover:bg-gray-200 transition-colors duration-200"
+                  >
+                    <img
+                      src={fetchAvatar(peticion.id_jugador) || "https://i.pravatar.cc/40"}
+                      alt={peticion.username}
+                      className="avatar w-10 h-10 rounded-full"
+                    />
+
+                    <span className="flex-1 text-gray-700 group-hover:text-black transition-colors duration-200">
+                      {peticion.nombre} {peticion.apellido1}
+                    </span>
+
+                    <button
+                      onClick={() => handleEnviarSolicitud(peticion.id_jugador)}
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors duration-200"
+                    >
+                      Añadir
+                    </button>
                   </div>
+
                 ))}
               </div>
             ) : (
@@ -168,25 +208,27 @@ const PantallaAmigos = () => {
             </thead>
             <tbody>
               {amigos.map((usuario) => (
-                <tr key={usuario.id_jugador} className="border-b hover:bg-gray-50">
-                  <td className="flex items-center gap-2 p-2">
-                    <img src="https://i.pravatar.cc/40" alt={usuario.username} className="w-8 h-8 rounded-full" />
+                <tr key={usuario.id_jugador} className="group border-b hover:bg-gray-50">
+                  <td className="flex items-center gap-2 p-2 text-white group-hover:text-black">
+                    <img
+                      src="https://i.pravatar.cc/40"
+                      alt={usuario.username}
+                      className="w-8 h-8 rounded-full"
+                    />
                     <span>{usuario.username}</span>
                   </td>
-                  <td className="p-2">{usuario.puntuacion_total}</td>
-                  <td className="p-2">{usuario.fecha_registro.split("T")[0]}</td>
+                  <td className="p-2 text-white group-hover:text-black">{usuario.puntuacion_total}</td>
+                  <td className="p-2 text-white group-hover:text-black">
+                    {usuario.fecha_registro.split("T")[0]}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
-
-      {/* Botón de volver */}
-      <div className=''>
-        <button className='boton'>
-          <Link to="/inicio">Volver</Link>
-        </button>
+      <div className="text-center absolute top-7 left-7">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" className=' hover:scale-125 transition-all duration-300 cursor-pointer' onClick={() => (navigate("/inicio"))}><path fill='#FFBD54' d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></svg>
       </div>
     </div>
 

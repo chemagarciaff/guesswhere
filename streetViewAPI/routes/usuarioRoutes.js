@@ -1,6 +1,7 @@
 import express from "express";
-import jwt from "jsonwebtoken";
-import verificarToken from "./middleware.js";
+import cors from 'cors';
+import multer from 'multer';
+
 import {
     createUsuarioController,
     deleteUsuarioController,
@@ -10,6 +11,7 @@ import {
     getUsuariosController,
     getUsuariosPublicosController,
     getUsuariosPrivadosController,
+    getAvatarByIdController,
     loginUsuarioController,
     updateUsuarioController
 } from "../controllers/usuarioController.js";
@@ -17,14 +19,16 @@ import {
 
 
 const usuarioRouter = express.Router();
+const upload = multer();
 
 usuarioRouter.get("/todos", getUsuariosController);
 usuarioRouter.get("/publicos", getUsuariosPublicosController);
 usuarioRouter.get("/privados", getUsuariosPrivadosController);
 usuarioRouter.get("/id/:id", getUsuarioByIdController);
 usuarioRouter.get("/username/:username", getUsuarioByUsernameController);
+usuarioRouter.get("/avatar/:id", getAvatarByIdController);
 usuarioRouter.get("/email/:email", getUsuarioByEmailController);
-usuarioRouter.post("/", createUsuarioController);
+usuarioRouter.post("/", upload.single('avatar'), createUsuarioController);
 usuarioRouter.post("/login", loginUsuarioController);
 usuarioRouter.patch("/:id", updateUsuarioController);
 usuarioRouter.delete("/:id", deleteUsuarioController);

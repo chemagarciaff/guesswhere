@@ -9,7 +9,7 @@ const PantallaResultado = () => {
 
 
   return (
-    <div className='pantallaResultado'>
+    <div className='w-screen h-screen absolute top-0 left-0 overflow-hidden grid grid-cols-[2fr_7fr]'>
       <DetallesResultado />
       <MapaResultado />
     </div>

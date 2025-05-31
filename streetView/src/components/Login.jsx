@@ -74,6 +74,29 @@ const Login = () => {
         return error;
     };
 
+    const fetchAvatar = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${id}`);
+            if (!response.ok) throw new Error('Error al cargar avatar');
+
+            // La respuesta es JSON, no imagen binaria directa
+            const json = await response.json();
+
+            // Extraemos el array de bytes (asegúrate que la estructura coincida)
+            const byteArray = new Uint8Array(json.avatar.data);
+
+            // Creamos el Blob
+            const blob = new Blob([byteArray], { type: 'image/png' });
+
+            // Generamos la URL para el blob
+            const url = URL.createObjectURL(blob);
+
+            return url
+        } catch (error) {
+            console.error('Error al cargar avatar:', error);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -97,9 +120,17 @@ const Login = () => {
                 setError(data.error || "Error desconocido");
 
             } else {
-                setUsuario(data.usuario);
+                const { avatar: avatarData, ...usuarioSinAvatar } = data.usuario;
 
-                sessionStorage.setItem('usuario', JSON.stringify(data.usuario));
+                const avatarUrl = await fetchAvatar(data.usuario.id_jugador);
+
+                const usuarioCompleto = {
+                    ...data.usuario,
+                    avatar: avatarUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+                };
+
+                setUsuario(usuarioCompleto);
+                sessionStorage.setItem('usuario', JSON.stringify(usuarioSinAvatar));
                 sessionStorage.setItem('token', data.token);
 
                 navigate('/inicio');

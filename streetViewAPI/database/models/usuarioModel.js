@@ -29,12 +29,17 @@ export async function getUsuarioByEmail(email) {
     return rows[0];
 }
 
+export async function getAvatarById(id) {
+    const [rows] = await db.execute("SELECT avatar FROM jugador WHERE id_jugador = ?", [id]);
+    return rows[0];
+}
+
 // Crear nuevo usuario
 export async function createUsuario(usuarioData) {
-    const { nombre, apellido1, apellido2, email, password, username } = usuarioData; // ajusta los campos según tu tabla
+    const { nombre, apellido1, apellido2, email, password, username, avatar } = usuarioData; // ajusta los campos según tu tabla
     const [result] = await db.execute(
-        "INSERT INTO jugador (nombre, apellido1, apellido2, email, password, username) VALUES (?, ?, ?, ?, ?, ?)",
-        [nombre, apellido1, apellido2, email, password, username]
+        "INSERT INTO jugador (nombre, apellido1, apellido2, email, password, username, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [nombre, apellido1, apellido2, email, password, username, avatar]
     );
     return { id: result.insertId, ...usuarioData };
 }
