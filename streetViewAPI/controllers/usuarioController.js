@@ -11,7 +11,6 @@ import {
     getUsuarioByEmail,
     getUsuarios,
     getUsuariosPublicos,
-    getUsuariosPrivados,
     getAvatarById,
     updateUsuario
 } from "../database/models/usuarioModel.js";
@@ -37,16 +36,6 @@ export async function getUsuariosPublicosController(req, res) {
         res.status(500).json({ error: "Error al obtener los usuarios públicos" });
     }
 }
-export async function getUsuariosPrivadosController(req, res) {
-    try {
-        const usuarios = await getUsuariosPrivados();
-        res.json(usuarios);
-    } catch (err) {
-        console.error("Error al obtener los usuarios públicos:", err); // Log the error for debugging
-        res.status(500).json({ error: "Error al obtener los usuarios públicos" });
-    }
-}
-
 
 export async function getUsuarioByIdController(req, res) {
     try {
@@ -102,7 +91,7 @@ export async function getAvatarByIdController(req, res) {
 // POST - crear nuevo usuario
 export async function createUsuarioController(req, res) {
     try {
-        const { nombre, apellido1, apellido2, email, username, password, privacidad } = req.body;
+        const { nombre, apellido1, apellido2, email, username, password } = req.body;
         const avatar = req.file.buffer;
         const passwordHashed = await argon2.hash(password);
         const usuario = await createUsuario({
@@ -113,7 +102,6 @@ export async function createUsuarioController(req, res) {
             username,
             avatar, // Asegúrate de que req.file esté definido
             password: passwordHashed,
-            privacidad
         });
         res.status(201).json(usuario);
     } catch (err) {
@@ -145,25 +133,6 @@ export async function loginUsuarioController(req, res) {
 
         return res.json({ usuario, token })
 
-
-        // Opcional: generar token o sesión
-        // res.json({
-        //     message: "Login exitoso",
-        //     usuario: {
-        //         id: usuario.id_jugador,
-        //         nombre: usuario.nombre,
-        //         apellido1: usuario.apellido1,
-        //         apellido2: usuario.apellido2,
-        //         username: usuario.username,
-        //         email: usuario.email,
-        //         rol: usuario.rol,
-        //         puntuacion_total: usuario.puntuacion_total,
-        //         privacidad: usuario.privacidad,
-        //         avatar: usuario.avatar,
-        //         nivel: usuario.nivel,
-        //         fecha_registro: usuario.fecha_registro,
-        //     }
-        // });
     } catch (err) {
         console.error("Error en el login:", err); // Log the error for debugging
         res.status(500).json({ error: "Error en el login" });

@@ -30,9 +30,7 @@ export const MapaProvider = ({ children }) => {
           apellido2: '',
           email: '',
           username: '',
-          nivel: 0,
           puntuacion_total: 0,
-          privacidad: 0
         };
   });
   const [avatares, setAvatares] = useState(() => {
@@ -43,6 +41,8 @@ export const MapaProvider = ({ children }) => {
 
   const [ajustes, setAjustes] = useState({
     sonido: false,
+    cancion: 0,
+    tipografia: 'font-osaka',
     pos_marker1: {
       left: 270,
       top: 254
@@ -63,7 +63,7 @@ export const MapaProvider = ({ children }) => {
       left: 1150,
       top: 321
     },
-    width_marker: 0
+    width_marker: 60
   })
 
 
@@ -80,7 +80,8 @@ export const MapaProvider = ({ children }) => {
       setUsuario,
       avatares,
       setAvatares,
-      ajustes
+      ajustes,
+      setAjustes
     }}>
       {children}
     </MapaContext.Provider>

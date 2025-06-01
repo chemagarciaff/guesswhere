@@ -42,7 +42,7 @@ const PantallaConfiguracionPartida = () => {
 
             <p className='absolute top-[35px] text-5xl letras-arcoiris w-fit left-1/2 -translate-x-1/2 '>Configura tu partida</p>
 
-            <div className='flex flex-col justify-center items-center w-fit max-w-[600px] max-h-[650px] bg-gray-100 bg-opacity-30 backdrop-blur-sm px-10 py-12 rounded-lg shadow-lg fadeUp borde-arcoiris'>
+            <div className='flex flex-col text-[#171717bd] justify-center items-center w-fit max-w-[600px] max-h-[650px] bg-gray-100 bg-opacity-30 backdrop-blur-sm px-10 py-12 rounded-lg shadow-lg fadeUp borde-arcoiris'>
                 <div className=''>
                     <p className='text-2xl mb-12'>Selecciona las opciones <br></br>de juego</p>
                     <div className='grid grid-cols-2 gap-4 w-full max-w-md'>
@@ -55,15 +55,15 @@ const PantallaConfiguracionPartida = () => {
                             min={1}
                             value={configuracionPartida.tiempo}
                             onChange={handleChange}
-                            className='p-2 pl-4'
+                            className='p-2 pl-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md'
                         />
 
-                        <label>Categoría:</label>
+                        <label className=''>Categoría:</label>
                         <select
                             name="categoria"
                             value={configuracionPartida.categoria}
                             onChange={handleChange}
-                            className='p-2 pl-4'
+                            className='p-2 pl-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md cursor-pointer'
                         >
                             <option value={1}>Capitales del Mundo</option>
                             <option value={2}>Ciudades Historicas</option>
@@ -76,19 +76,19 @@ const PantallaConfiguracionPartida = () => {
                             <option value={9}>Libre</option>
                             {/* Agrega más opciones si las tienes */}
                         </select>
-                <button className='boton'>
-                    <Link to={'/partida'}>Jugar</Link>
-                </button>
-                <button className='boton'>
-                    <Link to={'/inicio'}>Atras</Link>
-                </button>
+                        <Link to={'/partida'}><button className='cursor-pointer px-[24px] py-[12px] w-full fondo-arcoiris rounded-full transition-all hover:scale-105 border-none text-[#171717bd] mt-8'>
+                            Jugar
+                        </button></Link>
+                        <Link to={'/inicio'}><button className='cursor-pointer px-[24px] py-[12px] w-full fondo-arcoiris rounded-full transition-all hover:scale-105 border-none text-[#171717bd] mt-8'>
+                            Atras
+                        </button></Link>
                     </div>
                 </div>
 
             </div>
             <div className="text-center absolute top-7 left-7">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" className=' hover:scale-125 transition-all duration-300 cursor-pointer' onClick={() => (navigate("/inicio"))}><path fill='#FFBD54' d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></svg>
-    </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" className=' hover:scale-125 transition-all duration-300 cursor-pointer' onClick={() => (navigate("/inicio"))}><path fill='#FFBD54' d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></svg>
+            </div>
         </div>
     );
 };

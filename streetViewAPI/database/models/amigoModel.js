@@ -41,7 +41,6 @@ export async function getJugadoresNoAmigos(id_jugador) {
         SELECT *
         FROM jugador
         WHERE id_jugador != ?
-          AND privacidad = false
           AND id_jugador NOT IN (
               SELECT CASE
                        WHEN id_jugador1 = ? THEN id_jugador2

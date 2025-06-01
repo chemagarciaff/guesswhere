@@ -20,48 +20,49 @@ import { useContext, useEffect } from "react";
 
 function App() {
 
-  const { setAvatares, avatares } = useContext(MapaContext);
+  useEffect(() => {
+    getAvatares();
+  }, []);
 
-    useEffect(() => {
-        getAvatares();
-    }, []);
+  const getAvatares = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/guesswhere/usuario/todos');
+      if (!response.ok) throw new Error('Error al cargar usuarios');
 
-    const getAvatares = async () => {
+      const data = await response.json();
+
+      const avataresObj = {};
+
+      for (const usuario of data) {
         try {
-            const response = await fetch('http://localhost:3000/guesswhere/usuario/todos');
-            if (!response.ok) throw new Error('Error al cargar usuarios');
+          const avatarResponse = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${usuario.id_jugador}`);
+          if (!avatarResponse.ok) throw new Error('Error al cargar avatar');
 
-            const data = await response.json();
+          const avatarJson = await avatarResponse.json();
+          const byteArray = new Uint8Array(avatarJson.avatar.data);
+          const blob = new Blob([byteArray], { type: 'image/png' });
+          const url = URL.createObjectURL(blob);
 
-            const avataresObj = {};
-
-            for (const usuario of data) {
-                try {
-                    const avatarResponse = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${usuario.id_jugador}`);
-                    if (!avatarResponse.ok) throw new Error('Error al cargar avatar');
-
-                    const avatarJson = await avatarResponse.json();
-                    const byteArray = new Uint8Array(avatarJson.avatar.data);
-                    const blob = new Blob([byteArray], { type: 'image/png' });
-                    const url = URL.createObjectURL(blob);
-
-                    avataresObj[usuario.id_jugador] = url;
-                } catch (error) {
-                    console.error(`Error avatar usuario ${usuario.id_jugador}:`, error);
-                    avataresObj[usuario.id_jugador] = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
-                }
-            }
-            console.log(avataresObj)
-
-            // Guardamos en el contexto
-            setAvatares(avataresObj);
+          avataresObj[usuario.id_jugador] = url;
         } catch (error) {
-            console.error('Error general al cargar avatares:', error);
+          console.error(`Error avatar usuario ${usuario.id_jugador}:`, error);
+          avataresObj[usuario.id_jugador] = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
         }
-    };
+      }
+      console.log(avataresObj)
+
+      // Guardamos en el contexto
+      setAvatares(avataresObj);
+    } catch (error) {
+      console.error('Error general al cargar avatares:', error);
+    }
+  };
+  const { setAvatares, avatares, ajustes } = useContext(MapaContext);
+
 
   return (
-    <BrowserRouter>
+    <div className={`${ajustes.tipografia}`}>
+      <BrowserRouter>
         <Routes>
           <Route index element={<Login />} />
           <Route path="register" element={<Register />} />
@@ -120,7 +121,8 @@ function App() {
             </PrivateRoute>}
           />
         </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
 
 
   );

@@ -85,7 +85,7 @@ const PantallaPerfil = () => {
   }
 
   return (
-    <div className="w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8">
+    <div className="text-[#171717bd] w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8">
 
       <p className="text-5xl letras-arcoiris w-fit absolute top-7 left-1/2 -translate-x-1/2">Perfil</p>
 
@@ -125,7 +125,7 @@ const PantallaPerfil = () => {
                     accept="image/*"
                     ref={fileInputRef}
                     onChange={handleAvatarChange}
-                    className="hidden"
+                    className="hidden text-white"
                   />
                 </div>
 
@@ -138,7 +138,7 @@ const PantallaPerfil = () => {
                         readOnly
                         type="text"
                         value={usuario.nombre}
-                        className="p-2"
+                        className="p-2 text-white"
                       />
                     </label>
                     <label className="text-sm font-semibold flex flex-col">
@@ -146,7 +146,7 @@ const PantallaPerfil = () => {
                       <input
                         type="text"
                         value={usuario.apellido1}
-                        className="p-2"
+                        className="p-2 text-white"
                       />
                     </label>
                     <label className="text-sm font-semibold flex flex-col">
@@ -154,7 +154,7 @@ const PantallaPerfil = () => {
                       <input
                         type="text"
                         value={usuario.apellido2}
-                        className="p-2"
+                        className="p-2 text-white"
                       />
                     </label>
                     <label className="text-sm font-semibold flex flex-col">
@@ -162,7 +162,7 @@ const PantallaPerfil = () => {
                       <input
                         type="text"
                         value={usuario.username}
-                        className="p-2"
+                        className="p-2 text-white"
                       />
                     </label>
                     <label className="text-sm font-semibold flex flex-col col-span-2">
@@ -170,7 +170,7 @@ const PantallaPerfil = () => {
                       <input
                         type="email"
                         value={usuario.email}
-                        className="p-2"
+                        className="p-2 text-white"
                       />
                     </label>
                     <label className="text-sm font-semibold flex flex-col col-span-2">
@@ -178,7 +178,7 @@ const PantallaPerfil = () => {
                       <input
                         type="password"
                         value={"holabebe"}
-                        className="p-2"
+                        className="p-2 text-white"
                       />
                     </label>
                   </div>

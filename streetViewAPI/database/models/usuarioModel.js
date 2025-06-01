@@ -5,11 +5,7 @@ export async function getUsuarios() {
     return rows;
 }
 export async function getUsuariosPublicos() {
-    const [rows] = await db.execute("SELECT * FROM jugador where privacidad = false ORDER BY puntuacion_total DESC");
-    return rows;
-}
-export async function getUsuariosPrivados() {
-    const [rows] = await db.execute("SELECT * FROM jugador where privacidad = true");
+    const [rows] = await db.execute("SELECT * FROM jugador ORDER BY puntuacion_total DESC");
     return rows;
 }
 
@@ -36,10 +32,10 @@ export async function getAvatarById(id) {
 
 // Crear nuevo usuario
 export async function createUsuario(usuarioData) {
-    const { nombre, apellido1, apellido2, email, password, username, avatar, privacidad } = usuarioData; // ajusta los campos según tu tabla
+    const { nombre, apellido1, apellido2, email, password, username, avatar } = usuarioData; // ajusta los campos según tu tabla
     const [result] = await db.execute(
-        "INSERT INTO jugador (nombre, apellido1, apellido2, email, password, username, avatar, privacidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [nombre, apellido1, apellido2, email, password, username, avatar, privacidad]
+        "INSERT INTO jugador (nombre, apellido1, apellido2, email, password, username, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [nombre, apellido1, apellido2, email, password, username, avatar]
     );
     return { id: result.insertId, ...usuarioData };
 }

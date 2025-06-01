@@ -184,48 +184,48 @@ const Login = () => {
     };
 
     return (
-        <div className="w-full h-screen flex justify-center items-center fondo-mapa">
-            <div className='flex flex-col justify-center items-center w-[600px] h-[500px] bg-gray-100 bg-opacity-30 backdrop-blur-sm p-4 rounded-lg shadow-lg borde-arcoiris fadeUp'>
-                <h1 className='text-5xl mb-10'>GuessWhere</h1>
+        <div className="w-full h-screen flex justify-center items-center fondo-mapa relative">
+            <div className='flex flex-col justify-center items-center w-[600px] h-[500px] bg-gray-100 bg-opacity-20 backdrop-blur-sm p-4 rounded-lg shadow-lg borde-arcoiris fadeUp'>
+                <h1 className='text-5xl mb-20 w-full text-center letras-arcoiris'>GuessWhere</h1>
                 <div className=''>
                     <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 w-full max-w-md">
 
-                        <label htmlFor="username" className="text-gray-800 font-semibold  flex items-center">Usuario</label>
+                        <label htmlFor="username" className="text-[#171717bd] font-semibold  flex items-center">Usuario</label>
                         <input
                             type="text"
                             id="username"
                             name="username"
                             value={formData.username}
                             onChange={handleChange}
-                            className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
+                            className="text-[#171717bd] px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.username && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.username}</p>}
 
-                        <label htmlFor="password" className="text-gray-800 font-semibold  flex items-center">Contraseña</label>
+                        <label htmlFor="password" className="text-[#171717bd] font-semibold  flex items-center">Contraseña</label>
                         <input
                             type="password"
                             id="password"
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
+                            className="text-[#171717bd] px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.password && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.password}</p>}
 
-                        <div className='col-span-2 flex items-center justify-center mt-4 gap-4'>
+                        <div className='col-span-2 flex items-center justify-center mt-10 gap-4'>
 
                             <button
                                 type="submit"
-                                className="bg-gris hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
+                                className="text-[#171717bd] cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all border-none"
                             >
                                 Acceder
                             </button>
                             <div
-                                className='bg-gris hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 w-1/2'>
+                                className='cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all border-none hover:scale-105'>
                                 <Link
                                     to="/register"
                                 >
-                                    <p className='w-full h-full'>Registro</p>
+                                    <p className='w-full h-full text-[#171717bd]'>Registro</p>
 
                                 </Link>
                             </div>

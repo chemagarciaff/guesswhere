@@ -10,7 +10,6 @@ import {
     getUsuarioByEmailController,
     getUsuariosController,
     getUsuariosPublicosController,
-    getUsuariosPrivadosController,
     getAvatarByIdController,
     loginUsuarioController,
     updateUsuarioController
@@ -23,7 +22,6 @@ const upload = multer();
 
 usuarioRouter.get("/todos", getUsuariosController);
 usuarioRouter.get("/publicos", getUsuariosPublicosController);
-usuarioRouter.get("/privados", getUsuariosPrivadosController);
 usuarioRouter.get("/id/:id", getUsuarioByIdController);
 usuarioRouter.get("/username/:username", getUsuarioByUsernameController);
 usuarioRouter.get("/avatar/:id", getAvatarByIdController);

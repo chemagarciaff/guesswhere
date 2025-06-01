@@ -34,7 +34,7 @@ const PantallaAmigos = () => {
     console.log(data)
     setPeticiones(data);
   }
-  
+
   const getNoAmigos = async () => {
     const response = await fetch('http://localhost:3000/guesswhere/amigo/jugadores-disponibles/' + usuario.id_jugador)
     const data = await response.json()
@@ -100,16 +100,16 @@ const PantallaAmigos = () => {
   }, [])
 
   return (
-    <div className="w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8">
+    <div className="w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8 pb-[50px]">
 
       <p className="text-5xl letras-arcoiris w-fit absolute top-7 left-1/2 -translate-x-1/2">Amigos</p>
 
-      <div className="h-[70vh] px-12 grid gap-10 grid-cols-1 lg:grid-cols-[2fr_3fr] lg:grid-rows-[auto] min-h-0 overflow-hidden w-full">
+      <div className="min-h-[75vh] px-12 grid gap-10 grid-cols-1 lg:grid-cols-[2fr_3fr] lg:grid-rows-[auto] w-full fadeUp">
 
         {/* Peticiones de amistad */}
         {togglePeticiones && (
 
-          <div className="p-4 rounded-lg shadow bg-gray-100 bg-opacity-30 backdrop-blur-sm borde-arcoiris">
+          <div className="p-4 border rounded-lg shadow bg-gray-100 bg-opacity-30 backdrop-blur-sm borde-arcoiris">
             <div className='flex gap-5 w-full justify-between items-center px-3'>
 
               <h2 className="text-xl font-semibold mb-2 border-2 rounded-md cursor-pointer p-2">Peticiones recibidas</h2>
@@ -146,34 +146,36 @@ const PantallaAmigos = () => {
               <h2 className="text-xl font-semibold mb-2 border-2 rounded-md p-2 cursor-pointer">Enviar petición</h2>
             </div>
             {noAmigos.length !== 0 ? (
-              <div className="space-y-2">
-                {noAmigos.map((peticion) => (
-                  console.log(peticion),
-                  <div
-                    key={peticion.id_jugador}
-                    className="group flex items-center gap-4 p-2 bg-gray-100 rounded hover:bg-gray-200 transition-colors duration-200"
-                  >
-                    <img
-                      src={avatares[peticion.id_jugador] ||
-                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
-                      alt={peticion.username}
-                      className="avatar w-10 h-10 rounded-full"
-                    />
-
-                    <span className="flex-1 text-gray-700 group-hover:text-black transition-colors duration-200">
-                      {peticion.nombre} {peticion.apellido1}
-                    </span>
-
-                    <button
-                      onClick={() => handleEnviarSolicitud(peticion.id_jugador)}
-                      className=" text-white px-3 py-1 rounded fondo-arcoiris"
+              <div className="space-y-2 h-full overflow-y-auto p-2 scroll-invisible">
+                {noAmigos.map((peticion) => {
+                  console.log(peticion);
+                  return (
+                    <div
+                      key={peticion.id_jugador}
+                      className="group flex items-center gap-4 p-2 bg-gray-100 rounded hover:bg-gray-200 transition-colors duration-200"
                     >
-                      Añadir
-                    </button>
-                  </div>
+                      <img
+                        src={avatares[peticion.id_jugador] ||
+                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+                        alt={peticion.username}
+                        className="avatar w-10 h-10 rounded-full object-cover"
+                      />
 
-                ))}
+                      <span className="flex-1 text-gray-700 group-hover:text-black transition-colors duration-200">
+                        {peticion.nombre} {peticion.apellido1}
+                      </span>
+
+                      <button
+                        onClick={() => handleEnviarSolicitud(peticion.id_jugador)}
+                        className="text-white px-3 py-1 rounded fondo-arcoiris"
+                      >
+                        Añadir
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
+
             ) : (
               <p className="text-gray-500">No hay jugadores disponibles</p>
             )}

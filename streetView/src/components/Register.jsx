@@ -10,7 +10,6 @@ const Register = () => {
         username: '',
         password: '',
         avatar: '',
-        privacidad: true // false para público, true para privado
     });
     const [campoError, setCampoError] = useState({});
 
@@ -65,11 +64,7 @@ const Register = () => {
     const handleChange = (e) => {
         const { name, value, files, type } = e.target;
 
-        let val = value;
-        if (name === "privacidad") {
-            val = value === "true"; // convierte "true"/"false" a booleano
-            setFormData(prev => ({...prev, [name]: val }));
-        } else if (type === 'file') {
+        if (type === 'file') {
             setFormData(prev => ({ ...prev, [name]: files[0] }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value.trim() }));
@@ -148,10 +143,10 @@ const Register = () => {
     return (
         <div className="w-full h-screen flex justify-center items-center fondo-mapa">
             <div className='flex flex-col justify-center items-center w-[600px] h-[650px] bg-gray-100 bg-opacity-30 backdrop-blur-sm p-4 rounded-lg shadow-lg fadeUp borde-arcoiris'>
-                <h1 className='text-5xl mb-10'>GuessWhere</h1>
+                <h1 className='text-5xl mb-10 letras-arcoiris w-full text-center'>GuessWhere</h1>
                 <div className=''>
                     <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 w-full max-w-md">
-                        <label htmlFor="nombre" className="text-gray-800 font-semibold flex items-center">Nombre</label>
+                        <label htmlFor="nombre" className="text-[#171717bd] font-semibold flex items-center">Nombre</label>
                         <input
                             type="text"
                             id="nombre"
@@ -159,11 +154,11 @@ const Register = () => {
                             value={formData.nombre}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
+                            className="text-[#171717bd] px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.nombre && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.nombre}</p>}
 
-                        <label htmlFor="apellido1" className="text-gray-800 font-semibold  flex items-center">Primer Apellido</label>
+                        <label htmlFor="apellido1" className="text-[#171717bd] font-semibold  flex items-center">Primer Apellido</label>
                         <input
                             type="text"
                             id="apellido1"
@@ -171,11 +166,11 @@ const Register = () => {
                             value={formData.apellido1}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
+                            className="text-[#171717bd] px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.apellido1 && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.apellido1}</p>}
 
-                        <label htmlFor="apellido2" className="text-gray-800 font-semibold  flex items-center">Segundo Apellido</label>
+                        <label htmlFor="apellido2" className="text-[#171717bd] font-semibold  flex items-center">Segundo Apellido</label>
                         <input
                             type="text"
                             id="apellido2"
@@ -183,11 +178,11 @@ const Register = () => {
                             value={formData.apellido2}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
+                            className="text-[#171717bd] px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.apellido2 && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.apellido2}</p>}
 
-                        <label htmlFor="email" className="text-gray-800 font-semibold  flex items-center">Email</label>
+                        <label htmlFor="email" className="text-[#171717bd] font-semibold  flex items-center">Email</label>
                         <input
                             type="email"
                             id="email"
@@ -195,11 +190,11 @@ const Register = () => {
                             value={formData.email}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
+                            className="text-[#171717bd] px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.email && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.email}</p>}
 
-                        <label htmlFor="username" className="text-gray-800 font-semibold  flex items-center">Usuario</label>
+                        <label htmlFor="username" className="text-[#171717bd] font-semibold  flex items-center">Usuario</label>
                         <input
                             type="text"
                             id="username"
@@ -207,11 +202,11 @@ const Register = () => {
                             value={formData.username}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
+                            className="text-[#171717bd] px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.username && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.username}</p>}
 
-                        <label htmlFor="password" className="text-gray-800 font-semibold  flex items-center">Contraseña</label>
+                        <label htmlFor="password" className="text-[#171717bd] font-semibold  flex items-center">Contraseña</label>
                         <input
                             type="password"
                             id="password"
@@ -221,64 +216,35 @@ const Register = () => {
                             value={formData.password}
                             onBlur={handleBlur}
                             onChange={handleChange}
-                            className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
+                            className="text-[#171717bd] px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.password && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.password}</p>}
 
-                        <label className="text-gray-800 font-semibold block mb-1">Privacidad</label>
-                        <div className="flex gap-4">
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    id="publico"
-                                    name="privacidad"
-                                    value="false"
-                                    checked={formData.privacidad === false}
-                                    onChange={handleChange}
-                                    className="text-gray-800 focus:ring-gray-700"
-                                />
-                                Público
-                            </label>
 
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    id="privado"
-                                    name="privacidad"
-                                    value="true"
-                                    checked={formData.privacidad === true}
-                                    onChange={handleChange}
-                                    className="text-gray-800 focus:ring-gray-700"
-                                />
-                                Privado
-                            </label>
-                        </div>
-
-
-                        <label htmlFor="avatar" className="text-gray-800 font-semibold  flex items-center">Avatar</label>
+                        <label htmlFor="avatar" className="text-[#171717bd] font-semibold  flex items-center">Avatar</label>
                         <input
                             type="file"
                             id="avatar"
                             name="avatar"
                             accept='image/*'
                             onChange={handleChange}
-                            className="text-gray-800 text-[15px] rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700"
+                            className="text-[#171717bd] text-[15px] rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700"
                         />
 
                         <div className='col-span-2 flex items-center justify-center mt-4 gap-4'>
 
                             <button
                                 type="submit"
-                                className="bg-gris hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
+                                className="cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all border-none w-1/2 text-[#171717bd]"
                             >
                                 Registrarse
                             </button>
                             <div
-                                className='bg-gris hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 w-1/2'>
+                                className='cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all border-none w-1/2 hover:scale-105'>
                                 <Link
                                     to="/"
                                 >
-                                    <p className='w-full h-full'>Volver</p>
+                                    <p className='w-full h-full text-[#171717bd]'>Volver</p>
 
                                 </Link>
                             </div>
