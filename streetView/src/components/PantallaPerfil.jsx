@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { MapaContext } from '../contextos/MapaContext';
 
 const PantallaPerfil = () => {
-  const { usuario, setUsuario } = useContext(MapaContext);
+  const { usuario, setUsuario, avatares } = useContext(MapaContext);
   const [avatar, setAvatar] = useState(null);
   const [partidasJugadas, setPartidasJugadas] = useState([]);
   const [ubicacionesFavoritas, setUbicacionesFavoritas] = useState([]);
@@ -52,28 +52,28 @@ const PantallaPerfil = () => {
     }
   };
 
-      const fetchAvatar = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${id}`);
-            if (!response.ok) throw new Error('Error al cargar avatar');
+  const fetchAvatar = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${id}`);
+      if (!response.ok) throw new Error('Error al cargar avatar');
 
-            // La respuesta es JSON, no imagen binaria directa
-            const json = await response.json();
+      // La respuesta es JSON, no imagen binaria directa
+      const json = await response.json();
 
-            // Extraemos el array de bytes (asegúrate que la estructura coincida)
-            const byteArray = new Uint8Array(json.avatar.data);
+      // Extraemos el array de bytes (asegúrate que la estructura coincida)
+      const byteArray = new Uint8Array(json.avatar.data);
 
-            // Creamos el Blob
-            const blob = new Blob([byteArray], { type: 'image/png' });
+      // Creamos el Blob
+      const blob = new Blob([byteArray], { type: 'image/png' });
 
-            // Generamos la URL para el blob
-            const url = URL.createObjectURL(blob);
+      // Generamos la URL para el blob
+      const url = URL.createObjectURL(blob);
 
-            return url
-        } catch (error) {
-            console.error('Error al cargar avatar:', error);
-        }
-    };
+      return url
+    } catch (error) {
+      console.error('Error al cargar avatar:', error);
+    }
+  };
 
 
   let navigate = useNavigate()
@@ -92,14 +92,14 @@ const PantallaPerfil = () => {
       <div className="lg:h-[80vh] px-12 gap-10 flex flex-col min-h-0 overflow-hidden w-full pb-4">
 
         {/* Opciones arriba */}
-        <div className='flex gap-4 justify-center'>
-          <div className={`cursor-pointer p-2 ${mostrar.datosPersonales ? 'border-2' : ''}`} onClick={() => setMostrar({ datosPersonales: true, ubicacionesFavoritas: false, partidasJugadas: false })}>
+        <div className='flex gap-8 justify-center'>
+          <div className={`cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.datosPersonales ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: true, ubicacionesFavoritas: false, partidasJugadas: false })}>
             Mis datos personales
           </div>
-          <div className={`cursor-pointer p-2 ${mostrar.ubicacionesFavoritas ? 'border-2' : ''}`} onClick={() => setMostrar({ datosPersonales: false, ubicacionesFavoritas: true, partidasJugadas: false })}>
+          <div className={`cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.ubicacionesFavoritas ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: false, ubicacionesFavoritas: true, partidasJugadas: false })}>
             Ubicaciones favoritas
           </div>
-          <div className={`cursor-pointer p-2 ${mostrar.partidasJugadas ? 'border-2' : ''}`} onClick={() => setMostrar({ datosPersonales: false, ubicacionesFavoritas: false, partidasJugadas: true })}>
+          <div className={`cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.partidasJugadas ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: false, ubicacionesFavoritas: false, partidasJugadas: true })}>
             Partidas jugadas
           </div>
         </div>
@@ -108,13 +108,14 @@ const PantallaPerfil = () => {
         <div className="flex-1 overflow-hidden bg-gray-100 bg-opacity-30 backdrop-blur-sm p-6 rounded-lg shadow-lg fadeUp borde-arcoiris max-h-[630px]">
 
           {mostrar.datosPersonales && (
-            <div className='h-full overflow-auto'>
-              <form className="flex flex-wrap gap-8">
-                <div className="border w-[250px] h-[250px]">
+            <div className="h-full overflow-auto p-4">
+              <form className="flex flex-wrap items-center gap-12 justify-center">
+                {/* Avatar */}
+                <div className="w-[300px] h-[300px] border rounded-md overflow-hidden shadow-md flex items-center justify-center">
                   <img
-                    src={fetchAvatar(usuario.id_jugador) || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
+                    src={avatares[usuario.id_jugador] || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                     alt="avatar"
-                    className='object-cover w-full h-full'
+                    className="object-cover w-full h-full cursor-pointer"
                     onClick={handleAvatarClick}
                   />
                   <input
@@ -127,32 +128,84 @@ const PantallaPerfil = () => {
                     className="hidden"
                   />
                 </div>
-                <div className="flex flex-col gap-2 flex-1">
-                  <label>Nombre <input readOnly type="text" value={usuario.nombre} className="" /></label>
-                  <label>Primer Apellido <input readOnly type="text" value={usuario.apellido1} className="" /></label>
-                  <label>Segundo Apellido <input readOnly type="text" value={usuario.apellido2} className="" /></label>
-                  <label>Username <input readOnly type="text" value={usuario.username} className="" /></label>
-                  <label>Email <input readOnly type="email" value={usuario.email} className="" /></label>
-                  <div>
-                    <input type="checkbox" id="privacidad" />
-                    <label htmlFor="privacidad" className="ml-2">Acepto la política de privacidad</label>
+
+                {/* Formulario en dos columnas */}
+                <div className="min-w-[500px] rounded-md p-4 flex flex-col gap-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <label className="text-sm font-semibold flex flex-col">
+                      Nombre
+                      <input
+                        readOnly
+                        type="text"
+                        value={usuario.nombre}
+                        className="p-2"
+                      />
+                    </label>
+                    <label className="text-sm font-semibold flex flex-col">
+                      Primer Apellido
+                      <input
+                        type="text"
+                        value={usuario.apellido1}
+                        className="p-2"
+                      />
+                    </label>
+                    <label className="text-sm font-semibold flex flex-col">
+                      Segundo Apellido
+                      <input
+                        type="text"
+                        value={usuario.apellido2}
+                        className="p-2"
+                      />
+                    </label>
+                    <label className="text-sm font-semibold flex flex-col">
+                      Username
+                      <input
+                        type="text"
+                        value={usuario.username}
+                        className="p-2"
+                      />
+                    </label>
+                    <label className="text-sm font-semibold flex flex-col col-span-2">
+                      Email
+                      <input
+                        type="email"
+                        value={usuario.email}
+                        className="p-2"
+                      />
+                    </label>
+                    <label className="text-sm font-semibold flex flex-col col-span-2">
+                      Password
+                      <input
+                        type="password"
+                        value={"holabebe"}
+                        className="p-2"
+                      />
+                    </label>
                   </div>
-                  <button type="submit" className="boton mt-4 self-start">Enviar</button>
+
+
+                  {/* Botón */}
+                  <button
+                    type="submit"
+                    className="mt-4 cursor-pointer border-none px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all"
+                  >
+                    Guardar cambios
+                  </button>
                 </div>
               </form>
             </div>
+
           )}
 
           {mostrar.ubicacionesFavoritas && (
             <div className="h-full overflow-auto p-2 scroll-invisible">
-               <table className='w-full text-sm'>
+              <table className='w-full text-sm'>
                 <thead className='border-b'>
                   <tr className=''>
                     <th className='text-md pb-3'>#</th>
                     <th className='text-md pb-3'>País</th>
                     <th className='text-md pb-3'>Contienente</th>
-                    <th className='text-md pb-3'>Latitud</th>
-                    <th className='text-md pb-3'>Longitud</th>
+                    <th className='text-md pb-3'>Coordenadas (latitud, longitud)</th>
                     <th className='text-md pb-3'></th>
                   </tr>
                 </thead>
@@ -163,8 +216,7 @@ const PantallaPerfil = () => {
                         <td>{ubicacion.id_ubicacion}</td>
                         <td>{ubicacion.pais}</td>
                         <td>{ubicacion.continente}</td>
-                        <td>{ubicacion.latitud}</td>
-                        <td>{ubicacion.longitud}</td>
+                        <td>{ubicacion.latitud} / {ubicacion.longitud}</td>
                         <td>
                           <Link
                             to="/verFavorito"

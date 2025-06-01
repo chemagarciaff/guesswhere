@@ -102,7 +102,7 @@ export async function getAvatarByIdController(req, res) {
 // POST - crear nuevo usuario
 export async function createUsuarioController(req, res) {
     try {
-        const { nombre, apellido1, apellido2, email, username, password } = req.body;
+        const { nombre, apellido1, apellido2, email, username, password, privacidad } = req.body;
         const avatar = req.file.buffer;
         const passwordHashed = await argon2.hash(password);
         const usuario = await createUsuario({
@@ -112,7 +112,8 @@ export async function createUsuarioController(req, res) {
             email,
             username,
             avatar, // Asegúrate de que req.file esté definido
-            password: passwordHashed
+            password: passwordHashed,
+            privacidad
         });
         res.status(201).json(usuario);
     } catch (err) {

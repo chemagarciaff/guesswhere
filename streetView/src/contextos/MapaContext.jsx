@@ -35,6 +35,11 @@ export const MapaProvider = ({ children }) => {
           privacidad: 0
         };
   });
+  const [avatares, setAvatares] = useState(() => {
+    const storedAvatares = sessionStorage.getItem("avatares");
+    return storedAvatares ? JSON.parse(storedAvatares) : {};
+  })
+  
 
   const [ajustes, setAjustes] = useState({
     sonido: false,
@@ -61,6 +66,7 @@ export const MapaProvider = ({ children }) => {
     width_marker: 0
   })
 
+
   // Guardar en sessionStorage cada vez que el usuario cambia
   useEffect(() => {
     sessionStorage.setItem("usuario", JSON.stringify(usuario));
@@ -72,6 +78,8 @@ export const MapaProvider = ({ children }) => {
       setConfiguracionPartida,
       usuario,
       setUsuario,
+      avatares,
+      setAvatares,
       ajustes
     }}>
       {children}

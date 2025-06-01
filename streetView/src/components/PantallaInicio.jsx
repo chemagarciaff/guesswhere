@@ -8,39 +8,11 @@ import marker_5 from "./../assets/images/marker_5.png";
 import { MapaContext } from '../contextos/MapaContext';
 
 const PantallaInicio = () => {
-  const { configuracionPartida, setConfiguracionPartida, usuario } = useContext(MapaContext)
+  const { configuracionPartida, setConfiguracionPartida, usuario, avatares } = useContext(MapaContext)
   const [titulo, setTitulo] = useState("GuessWhere");
   const [animate, setAnimate] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState("");
   const navigate = useNavigate()
-
-  // useEffect(() => {
-
-  //   fetchAvatar();
-  // }, []);
-
-  // const fetchAvatar = async () => {
-  //   try {
-  //      const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${usuario.id_jugador}`);
-  //   if (!response.ok) throw new Error('Error al cargar avatar');
-
-  //    // La respuesta es JSON, no imagen binaria directa
-  //   const json = await response.json();
-
-  //   // Extraemos el array de bytes (asegúrate que la estructura coincida)
-  //   const byteArray = new Uint8Array(json.avatar.data);
-
-  //   // Creamos el Blob
-  //   const blob = new Blob([byteArray], { type: 'image/png' });
-
-  //   // Generamos la URL para el blob
-  //   const url = URL.createObjectURL(blob);
-
-  //   setAvatarUrl(url);
-  //   } catch (error) {
-  //     console.error('Error al cargar avatar:', error);
-  //   }
-  // };
 
   const mostrarTitulo = (nuevoTitulo) => {
     setTitulo(nuevoTitulo);
@@ -51,7 +23,7 @@ const PantallaInicio = () => {
     // Eliminar usuario y token del sessionStorage
     sessionStorage.removeItem('usuario');
     sessionStorage.removeItem('token');
-
+    sessionStorage.removeItem('avatares');
     navigate('/')
   }
 
@@ -66,19 +38,21 @@ const PantallaInicio = () => {
     <div className='w-full h-screen relative top-0 left-0 fondo-mapa'>
       <p className={`relative top-[35px] text-5xl letras-arcoiris w-fit left-1/2 -translate-x-1/2 ${animate ? '' : ''}`}>{titulo}</p>
 
-      <div className="absolute top-[20px] right-[20px] flex items-center gap-1 px-[12px] py-[8px]">
-        <img
-          src={usuario.avatar ? usuario.avatar : marker_1} // Usa una imagen por defecto o del backend si la tienes
-          alt="Usuario"
-          className="w-[50px] h-[50px] rounded-full object-cover mr-[10px]"
-        />
-        <div className="flex flex-col text-[12px]">
-          <p className='nombre'>{usuario.nombre} {usuario.apellido1}</p>
-          <p className=''>{usuario.puntuacion_total} puntos</p>
-          <p className='resto'>Nivel {usuario.nivel}</p>
+      <Link to={'/perfil'}>
+        <div className="absolute hover:text-[#8CA9F0] hover:scale-110 transition top-[20px] right-[20px] flex items-center gap-1 px-[12px] py-[8px] border rounded-full cursor-pointer">
+          <img
+            src={avatares[usuario.id_jugador]} // Usa una imagen por defecto o del backend si la tienes
+            alt="Usuario"
+            className="w-[50px] h-[50px] rounded-full object-cover mr-[10px]"
+          />
+          <div className="flex flex-col items-start text-[12px]">
+            <p className=''>{usuario.nombre} {usuario.apellido1}</p>
+            <p className=''>{usuario.username}</p>
+            <p className=''>{usuario.puntuacion_total} puntos</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" onClick={cerrarSesion} viewBox="0 0 512 512" className='ml-4 cursor-pointer' width="25" height='25'><path fill="#FFBD54" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" /></svg>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" onClick={cerrarSesion} viewBox="0 0 512 512" className='ml-2 cursor-pointer' width="30" height='30'><path fill="#ffffff" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" /></svg>
-      </div>
+      </Link>
 
       <Link to={'/configuracion'}>
         <img

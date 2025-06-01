@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const StreetViewFav = () => {
   const streetViewRef = useRef(null);
@@ -36,11 +36,11 @@ const StreetViewFav = () => {
   return (
     <div
       ref={streetViewRef}
-      className="absolute right-0 top-0 h-screen w-[102vw]"
+      className="relative right-0 top-0 h-screen w-screen overflow-hidden"
     >
-      {/* <div className="text-center absolute top-7 left-7 z-50">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" className=' hover:scale-125 transition-all duration-300 cursor-pointer' onClick={() => (navigate("/perfil"))}><path fill='#FFBD54' d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></svg>
-      </div> */}
+      <Link to="/perfil">
+        <div className='absolute z-10 top-7 text-white left-1/2 -translate-x-1/2 px-24 py-6 fondo-arcoiris hover:scale-110 transition duration-[0.5s] rounded-full cursor-pointer hover:shadow-[0_0_10px_3px_#000000]'>Volver</div>
+      </Link>
     </div>
   );
 };

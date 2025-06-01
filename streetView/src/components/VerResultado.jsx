@@ -105,7 +105,7 @@ const VerResultado = () => {
             <div className='w-screen h-screen relative top-0 left-0'>
                 <div ref={mapRef} className='w-full h-full' />
                 <Link to="/perfil">
-                <div className='absolute top-7 text-white left-1/2 -translate-x-1/2 px-24 py-6 fondo-arcoiris hover:scale-125 transition-all cursor-pointer shadow-[0_0_15px_3px_#000000]'>Volver</div>
+                <div className='absolute top-7 text-white left-1/2 -translate-x-1/2 px-24 py-6 fondo-arcoiris hover:scale-110 transition duration-[0.5s] rounded-full cursor-pointer hover:shadow-[0_0_10px_3px_#000000]'>Volver</div>
                 </Link>
             </div>
 

@@ -9,7 +9,8 @@ const Register = () => {
         email: '',
         username: '',
         password: '',
-        avatar: ''
+        avatar: '',
+        privacidad: true // false para público, true para privado
     });
     const [campoError, setCampoError] = useState({});
 
@@ -20,7 +21,7 @@ const Register = () => {
         if (name != 'avatar') {
 
 
-            if ((!value.trim() || value.trim() === '') && name !== 'apellido2') {
+            if ((typeof value === 'string' && !value.trim()) && name !== 'apellido2') {
                 return error = 'Este campo es obligatorio';
             }
 
@@ -64,7 +65,11 @@ const Register = () => {
     const handleChange = (e) => {
         const { name, value, files, type } = e.target;
 
-        if (type === 'file') {
+        let val = value;
+        if (name === "privacidad") {
+            val = value === "true"; // convierte "true"/"false" a booleano
+            setFormData(prev => ({...prev, [name]: val }));
+        } else if (type === 'file') {
             setFormData(prev => ({ ...prev, [name]: files[0] }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value.trim() }));
@@ -219,6 +224,36 @@ const Register = () => {
                             className="text-gray-800 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700 bg-white bg-opacity-80"
                         />
                         {campoError.password && <p className="text-sm text-red-500 col-span-2 bg-[#303030]">{campoError.password}</p>}
+
+                        <label className="text-gray-800 font-semibold block mb-1">Privacidad</label>
+                        <div className="flex gap-4">
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="radio"
+                                    id="publico"
+                                    name="privacidad"
+                                    value="false"
+                                    checked={formData.privacidad === false}
+                                    onChange={handleChange}
+                                    className="text-gray-800 focus:ring-gray-700"
+                                />
+                                Público
+                            </label>
+
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="radio"
+                                    id="privado"
+                                    name="privacidad"
+                                    value="true"
+                                    checked={formData.privacidad === true}
+                                    onChange={handleChange}
+                                    className="text-gray-800 focus:ring-gray-700"
+                                />
+                                Privado
+                            </label>
+                        </div>
+
 
                         <label htmlFor="avatar" className="text-gray-800 font-semibold  flex items-center">Avatar</label>
                         <input

@@ -7,8 +7,9 @@ const PantallaAmigos = () => {
   const [amigos, setAmigos] = useState([])
   const [peticiones, setPeticiones] = useState([])
   const [noAmigos, setNoAmigos] = useState([])
-  const { usuario } = useContext(MapaContext);
+  const { usuario, avatares, setAvatares } = useContext(MapaContext);
   const [togglePeticiones, setTogglePeticiones] = useState(true)
+
   let navigate = useNavigate()
 
   const handleRight = () => {
@@ -21,23 +22,24 @@ const PantallaAmigos = () => {
 
 
   const getAmigos = async () => {
-    console.log(usuario.id)
     const response = await fetch('http://localhost:3000/guesswhere/amigo/confirmados/' + usuario.id_jugador)
     const data = await response.json()
     console.log(data)
     setAmigos(data)
   }
+
+  const getPeticiones = async () => {
+    const response = await fetch('http://localhost:3000/guesswhere/amigo/peticiones/' + usuario.id_jugador);
+    const data = await response.json();
+    console.log(data)
+    setPeticiones(data);
+  }
+  
   const getNoAmigos = async () => {
     const response = await fetch('http://localhost:3000/guesswhere/amigo/jugadores-disponibles/' + usuario.id_jugador)
     const data = await response.json()
     console.log(data)
     setNoAmigos(data)
-  }
-  const getPeticiones = async () => {
-    const response = await fetch('http://localhost:3000/guesswhere/amigo/peticiones/' + usuario.id_jugador)
-    const data = await response.json()
-    console.log(data)
-    setPeticiones(data)
   }
 
   const handleEnviarSolicitud = async (id_jugador2) => {
@@ -61,29 +63,6 @@ const PantallaAmigos = () => {
       console.error('Error al enviar solicitud');
     }
   }
-
-  const fetchAvatar = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${id}`);
-            if (!response.ok) throw new Error('Error al cargar avatar');
-
-            // La respuesta es JSON, no imagen binaria directa
-            const json = await response.json();
-
-            // Extraemos el array de bytes (asegúrate que la estructura coincida)
-            const byteArray = new Uint8Array(json.avatar.data);
-
-            // Creamos el Blob
-            const blob = new Blob([byteArray], { type: 'image/png' });
-
-            // Generamos la URL para el blob
-            const url = URL.createObjectURL(blob);
-
-            return url
-        } catch (error) {
-            console.error('Error al cargar avatar:', error);
-        }
-    };
 
   const handleAmistad = async (id_jugador1, id_jugador2) => {
     const response = await fetch(`http://localhost:3000/guesswhere/amigo/${id_jugador1}/${id_jugador2}`, {
@@ -140,10 +119,14 @@ const PantallaAmigos = () => {
               <div className="space-y-2">
                 {peticiones.map((peticion) => (
                   <div key={peticion.id_jugador} className="flex items-center gap-4 p-2 bg-gray-100 rounded text-black">
-                    <img src={fet} alt={peticion.username} className="avatar w-10 h-10 rounded-full" />
-                    <span className="flex-1">{peticion.nombre} {peticion.apellido1}</span>
-                    <svg onClick={() => handleAmistad(peticion.id_jugador, usuario.id_jugador)} className="w-6 h-6 text-green-600 cursor-pointer border-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="..." /></svg>
-                    <svg onClick={() => handleNoAmistad(peticion.id_jugador, usuario.id_jugador)} className="w-6 h-6 text-red-600 cursor-pointer border-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="..." /></svg>
+                    <img src={avatares[peticion.id_jugador]} alt={peticion.username} className="avatar w-10 h-10 rounded-full" />
+                    <span className="flex-1 text-gray-700">{peticion.nombre} {peticion.apellido1}</span>
+                    <svg onClick={() => handleAmistad(peticion.id_jugador, usuario.id_jugador)} className="w-6 h-6 text-green-600 cursor-pointer border-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
+                      clipRule="evenodd"
+                    /></svg>
+                    {/* <svg onClick={() => handleNoAmistad(peticion.id_jugador, usuario.id_jugador)} className="w-6 h-6 text-red-600 cursor-pointer border-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="..." /></svg> */}
                   </div>
                 ))}
               </div>
@@ -165,12 +148,14 @@ const PantallaAmigos = () => {
             {noAmigos.length !== 0 ? (
               <div className="space-y-2">
                 {noAmigos.map((peticion) => (
+                  console.log(peticion),
                   <div
                     key={peticion.id_jugador}
                     className="group flex items-center gap-4 p-2 bg-gray-100 rounded hover:bg-gray-200 transition-colors duration-200"
                   >
                     <img
-                      src={fetchAvatar(peticion.id_jugador) || "https://i.pravatar.cc/40"}
+                      src={avatares[peticion.id_jugador] ||
+                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
                       alt={peticion.username}
                       className="avatar w-10 h-10 rounded-full"
                     />
@@ -181,7 +166,7 @@ const PantallaAmigos = () => {
 
                     <button
                       onClick={() => handleEnviarSolicitud(peticion.id_jugador)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors duration-200"
+                      className=" text-white px-3 py-1 rounded fondo-arcoiris"
                     >
                       Añadir
                     </button>
@@ -211,7 +196,7 @@ const PantallaAmigos = () => {
                 <tr key={usuario.id_jugador} className="group border-b hover:bg-gray-50">
                   <td className="flex items-center gap-2 p-2 text-white group-hover:text-black">
                     <img
-                      src="https://i.pravatar.cc/40"
+                      src={avatares[usuario.id_jugador]}
                       alt={usuario.username}
                       className="w-8 h-8 rounded-full"
                     />

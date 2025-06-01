@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MapaContext } from '../contextos/MapaContext';
 
 const Login = () => {
-    const { setUsuario } = useContext(MapaContext);
+    const { setUsuario, avatares, setAvatares } = useContext(MapaContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
@@ -12,6 +12,69 @@ const Login = () => {
     const [error, setError] = useState('');
 
     const [campoError, setCampoError] = useState({});
+
+    useEffect(() => {
+        getAvatares();
+    }, []);
+
+    const getAvatares = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/guesswhere/usuario/todos');
+            if (!response.ok) throw new Error('Error al cargar usuarios');
+
+            const data = await response.json();
+
+            const avataresObj = {};
+
+            for (const usuario of data) {
+                try {
+                    const avatarResponse = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${usuario.id_jugador}`);
+                    if (!avatarResponse.ok) throw new Error('Error al cargar avatar');
+
+                    const avatarJson = await avatarResponse.json();
+                    const byteArray = new Uint8Array(avatarJson.avatar.data);
+                    const blob = new Blob([byteArray], { type: 'image/png' });
+                    const url = URL.createObjectURL(blob);
+
+                    avataresObj[usuario.id_jugador] = url;
+                } catch (error) {
+                    console.error(`Error avatar usuario ${usuario.id_jugador}:`, error);
+                    avataresObj[usuario.id_jugador] = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+                }
+            }
+            console.log(avataresObj)
+
+            // Guardamos en el contexto
+            setAvatares(avataresObj);
+        } catch (error) {
+            console.error('Error general al cargar avatares:', error);
+        }
+    };
+
+    const fetchAvatar = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${id}`);
+            if (!response.ok) throw new Error('Error al cargar avatar');
+
+            // La respuesta es JSON, no imagen binaria directa
+            const json = await response.json();
+
+            // Extraemos el array de bytes (asegúrate que la estructura coincida)
+            const byteArray = new Uint8Array(json.avatar.data);
+
+            // Creamos el Blob
+            const blob = new Blob([byteArray], { type: 'image/png' });
+
+            // Generamos la URL para el blob
+            const url = URL.createObjectURL(blob);
+
+            return url
+        } catch (error) {
+            console.error('Error al cargar avatar:', error);
+        }
+    };
+
+
 
     const checkRepeatValue = async (name, value) => {
         try {
@@ -74,29 +137,6 @@ const Login = () => {
         return error;
     };
 
-    const fetchAvatar = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:3000/guesswhere/usuario/avatar/${id}`);
-            if (!response.ok) throw new Error('Error al cargar avatar');
-
-            // La respuesta es JSON, no imagen binaria directa
-            const json = await response.json();
-
-            // Extraemos el array de bytes (asegúrate que la estructura coincida)
-            const byteArray = new Uint8Array(json.avatar.data);
-
-            // Creamos el Blob
-            const blob = new Blob([byteArray], { type: 'image/png' });
-
-            // Generamos la URL para el blob
-            const url = URL.createObjectURL(blob);
-
-            return url
-        } catch (error) {
-            console.error('Error al cargar avatar:', error);
-        }
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -132,6 +172,7 @@ const Login = () => {
                 setUsuario(usuarioCompleto);
                 sessionStorage.setItem('usuario', JSON.stringify(usuarioSinAvatar));
                 sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('avatares', JSON.stringify(avatares));
 
                 navigate('/inicio');
             }
