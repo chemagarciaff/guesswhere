@@ -173,8 +173,11 @@ const Login = () => {
                 sessionStorage.setItem('usuario', JSON.stringify(usuarioSinAvatar));
                 sessionStorage.setItem('token', data.token);
                 sessionStorage.setItem('avatares', JSON.stringify(avatares));
-
-                navigate('/inicio');
+                if(usuarioCompleto.verificado){
+                    navigate('/inicio');
+                }else{
+                    navigate('/verificacion');
+                }
             }
         } catch (err) {
 

@@ -6,6 +6,7 @@ import marker_3 from "./../assets/images/marker_3.png";
 import marker_4 from "./../assets/images/marker_4.png";
 import marker_5 from "./../assets/images/marker_5.png";
 import { MapaContext } from '../contextos/MapaContext';
+import Reproductor from './Reproductor';
 
 const PantallaInicio = () => {
   const { usuario, avatares, ajustes, setAjustes } = useContext(MapaContext)
@@ -43,8 +44,7 @@ const PantallaInicio = () => {
 
   return (
     <div className='w-full h-screen relative top-0 left-0 fondo-mapa'>
-      {!mostrarAjustes && (<p className={`relative top-[35px] text-5xl letras-arcoiris w-fit left-1/2 -translate-x-1/2 ${animate ? '' : ''}`}>{titulo}</p>)}
-      {mostrarAjustes && (<p className={`relative top-[35px] text-4xl letras-arcoiris w-fit left-1/2 -translate-x-1/2 ${animate ? '' : ''}`}>Personaliza tu pantalla</p>)}
+      <p className={`relative top-[35px] text-5xl letras-arcoiris w-fit left-1/2 -translate-x-1/2 ${animate ? '' : ''}`}>{titulo}</p>
 
       <Link to={'/perfil'}>
         <div className="absolute hover:text-[#8CA9F0] hover:scale-110 transition top-[20px] right-[20px] flex items-center gap-1 px-[12px] py-[8px] border rounded-full cursor-pointer">
@@ -69,7 +69,7 @@ const PantallaInicio = () => {
           alt=""
           className='marker_1 jump-on-hover absolute top-[30%] left-[18%] flex cursor-pointer'
           style={{ width: `${ajustes.width_marker}px` }}
-          onMouseOver={() => mostrarTitulo("JUGAR")}
+          onMouseOver={() => mostrarTitulo("Jugar")}
           onClick={(event) => { console.log(event) }}
 
         />
@@ -81,7 +81,7 @@ const PantallaInicio = () => {
           alt=""
           className='marker_2 jump-on-hover absolute top-[50%] left-[30%] flex cursor-pointer'
           style={{ width: `${ajustes.width_marker}px` }}
-          onMouseOver={() => mostrarTitulo("RANKING")}
+          onMouseOver={() => mostrarTitulo("Ranking")}
           onClick={(event) => { console.log(event) }}
 
         />
@@ -93,7 +93,7 @@ const PantallaInicio = () => {
           alt=""
           className='marker_3 jump-on-hover absolute top-[38%] left-[44%] flex cursor-pointer'
           style={{ width: `${ajustes.width_marker}px` }}
-          onMouseOver={() => mostrarTitulo("AMIGOS")}
+          onMouseOver={() => mostrarTitulo("Amigos")}
           onClick={(event) => { console.log(event) }}
 
         />
@@ -105,7 +105,7 @@ const PantallaInicio = () => {
           alt=""
           className='marker_4 jump-on-hover absolute top-[27%] left-[60%] flex cursor-pointer'
           style={{ width: `${ajustes.width_marker}px` }}
-          onMouseOver={() => mostrarTitulo("PERFIL")}
+          onMouseOver={() => mostrarTitulo("Perfil")}
           onClick={(event) => { console.log(event) }}
 
         />
@@ -116,22 +116,14 @@ const PantallaInicio = () => {
         alt=""
         className="marker_5 jump-on-hover absolute top-[40%] left-[73%] flex cursor-pointer"
         style={{ width: `${ajustes.width_marker}px` }}
-        onMouseOver={() => mostrarTitulo("AJUSTES")}
+        onMouseOver={() => mostrarTitulo("Ajustes")}
         onClick={() => setMostrarAjustes(prev => !prev)}
 
       />
 
       {mostrarAjustes && (
         <div className="absolute bottom-7 left-7 grid grid-cols-2 gap-4 bg-white p-4 rounded-lg shadow-lg fondo-arcoiris fadeUp">
-          <div className='col-span-2 bg-[#00000099] p-2 flex  flex-col gap-2'>
-            <p className='w-full text-center'>Cancion</p>
-            <div className='flex justify-between'>
-
-              <p className='cursor-pointer'>Ant.</p>
-              <p className='cursor-pointer'>Play</p>
-              <p className='cursor-pointer'>Pos.</p>
-            </div>
-          </div>
+          <Reproductor />
           <label htmlFor="tipografia">Tipografia</label>
           <select name="tipografia" id="" value={ajustes.tipografia} onChange={(e) => {
             setAjustes(prev => ({

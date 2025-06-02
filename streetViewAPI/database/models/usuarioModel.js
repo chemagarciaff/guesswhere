@@ -32,16 +32,16 @@ export async function getAvatarById(id) {
 
 // Crear nuevo usuario
 export async function createUsuario(usuarioData) {
-    const { nombre, apellido1, apellido2, email, password, username, avatar } = usuarioData; // ajusta los campos según tu tabla
+    const { nombre, apellido1, apellido2, email, password, username, avatar, codigo } = usuarioData; // ajusta los campos según tu tabla
     const [result] = await db.execute(
-        "INSERT INTO jugador (nombre, apellido1, apellido2, email, password, username, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [nombre, apellido1, apellido2, email, password, username, avatar]
+        "INSERT INTO jugador (nombre, apellido1, apellido2, email, password, username, avatar, codigo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [nombre, apellido1, apellido2, email, password, username, avatar, codigo]
     );
     return { id: result.insertId, ...usuarioData };
 }
 
 export async function updateUsuario(id, puntuacionActual, usuarioData) {
-    const camposPermitidos = ['nombre', 'apellido1', 'apellido2', 'email', 'username', 'puntuacion_total', 'rol'];
+    const camposPermitidos = ['nombre', 'apellido1', 'apellido2', 'email', 'username', 'puntuacion_total', 'rol', 'avatar', 'verificado'];
     const campos = [];
     const valores = [];
 

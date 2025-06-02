@@ -17,6 +17,7 @@ import SelectorUbicacionGigante from "./components/MapaSelectorUbicacionGigante"
 import VerResultado from "./components/VerResultado";
 import StreetViewFav from "./components/MapaStreetViewFav";
 import { useContext, useEffect } from "react";
+import Verification from "./components/Verification";
 
 function App() {
 
@@ -114,6 +115,9 @@ function App() {
             <PrivateRoute>
               <StreetViewFav />
             </PrivateRoute>}
+          />
+          <Route path="verificacion" element={
+              <Verification />}
           />
           <Route path="verResultado" element={
             <PrivateRoute>

@@ -42,7 +42,7 @@ export const MapaProvider = ({ children }) => {
   const [ajustes, setAjustes] = useState({
     sonido: false,
     cancion: 0,
-    tipografia: 'font-osaka',
+    tipografia: 'font-neuro',
     pos_marker1: {
       left: 270,
       top: 254

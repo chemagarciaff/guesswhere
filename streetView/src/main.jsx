@@ -4,12 +4,14 @@ import './index.css'
 import './output.css'
 import App from './App.jsx'
 import { MapaProvider } from './contextos/MapaContext.jsx'
+import { MusicProvider } from './contextos/MusicaContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-      <MapaProvider>
-
-    <App />
-      </MapaProvider>
+    <MapaProvider>
+      <MusicProvider>
+        <App />
+      </MusicProvider>
+    </MapaProvider>
   </StrictMode>,
 )

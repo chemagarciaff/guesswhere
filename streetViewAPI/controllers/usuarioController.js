@@ -1,5 +1,6 @@
 import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
+import sendVerificationEmail from './nodemailer.js'; // Asegúrate de que esta función esté implementada correctamente
 // const jwt = require('jsonwebtoken');
 
 
@@ -94,6 +95,13 @@ export async function createUsuarioController(req, res) {
         const { nombre, apellido1, apellido2, email, username, password } = req.body;
         const avatar = req.file.buffer;
         const passwordHashed = await argon2.hash(password);
+        const verificationCode = Math.floor(100000 + Math.random() * 900000)
+        try {
+            await sendVerificationEmail(email, verificationCode);
+        } catch (err) {
+            console.error("Error al enviar el correo de verificación:", err); // Log the error for debugging
+            return res.status(500).json({ error: "Error al enviar el correo de verificación" });
+        }
         const usuario = await createUsuario({
             nombre,
             apellido1,
@@ -102,6 +110,7 @@ export async function createUsuarioController(req, res) {
             username,
             avatar, // Asegúrate de que req.file esté definido
             password: passwordHashed,
+            codigo: verificationCode || 654321,
         });
         res.status(201).json(usuario);
     } catch (err) {

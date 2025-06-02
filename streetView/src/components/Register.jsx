@@ -10,6 +10,7 @@ const Register = () => {
         username: '',
         password: '',
         avatar: '',
+        codigo: 0
     });
     const [campoError, setCampoError] = useState({});
 
@@ -115,6 +116,7 @@ const Register = () => {
 
         const isValid = await validateAllFields();
         if (!isValid) return;
+
 
         const data = new FormData();
         Object.entries(formData).forEach(([key, value]) => {

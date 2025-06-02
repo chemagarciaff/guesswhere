@@ -85,7 +85,7 @@ const PantallaPerfil = () => {
   }
 
   return (
-    <div className="text-[#171717bd] w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8">
+    <div className=" w-full min-h-screen relative top-0 left-0 fondo-mapa flex flex-col items-center justify-start pt-[110px] gap-8">
 
       <p className="text-5xl letras-arcoiris w-fit absolute top-7 left-1/2 -translate-x-1/2">Perfil</p>
 
@@ -93,13 +93,13 @@ const PantallaPerfil = () => {
 
         {/* Opciones arriba */}
         <div className='flex gap-8 justify-center'>
-          <div className={`cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.datosPersonales ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: true, ubicacionesFavoritas: false, partidasJugadas: false })}>
+          <div className={`text-[#171717bd] cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.datosPersonales ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: true, ubicacionesFavoritas: false, partidasJugadas: false })}>
             Mis datos personales
           </div>
-          <div className={`cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.ubicacionesFavoritas ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: false, ubicacionesFavoritas: true, partidasJugadas: false })}>
+          <div className={`text-[#171717bd] cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.ubicacionesFavoritas ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: false, ubicacionesFavoritas: true, partidasJugadas: false })}>
             Ubicaciones favoritas
           </div>
-          <div className={`cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.partidasJugadas ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: false, ubicacionesFavoritas: false, partidasJugadas: true })}>
+          <div className={`text-[#171717bd] cursor-pointer px-[24px] py-[12px] fondo-arcoiris rounded-full transition-all ${mostrar.partidasJugadas ? 'scale-110' : ''}`} onClick={() => setMostrar({ datosPersonales: false, ubicacionesFavoritas: false, partidasJugadas: true })}>
             Partidas jugadas
           </div>
         </div>
@@ -131,7 +131,7 @@ const PantallaPerfil = () => {
 
                 {/* Formulario en dos columnas */}
                 <div className="min-w-[500px] rounded-md p-4 flex flex-col gap-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4 text-lg">
                     <label className="text-sm font-semibold flex flex-col">
                       Nombre
                       <input
@@ -201,23 +201,21 @@ const PantallaPerfil = () => {
             <div className="h-full overflow-auto p-2 scroll-invisible">
               <table className='w-full text-sm'>
                 <thead className='border-b'>
-                  <tr className=''>
-                    <th className='text-md pb-3'>#</th>
-                    <th className='text-md pb-3'>País</th>
-                    <th className='text-md pb-3'>Contienente</th>
-                    <th className='text-md pb-3'>Coordenadas (latitud, longitud)</th>
-                    <th className='text-md pb-3'></th>
+                  <tr className='text-lg text-[#171717bd]'>
+                    <th className='text-lg pb-3'>País</th>
+                    <th className='text-lg pb-3'>Contienente</th>
+                    <th className='text-lg pb-3'>Coordenadas (latitud, longitud)</th>
+                    <th className='text-lg pb-3'>Ver</th>
                   </tr>
                 </thead>
                 <tbody>
                   {ubicacionesFavoritas.map((ubicacion, index) => {
                     return (
-                      <tr key={index} className="border-b">
-                        <td>{ubicacion.id_ubicacion}</td>
-                        <td>{ubicacion.pais}</td>
-                        <td>{ubicacion.continente}</td>
-                        <td>{ubicacion.latitud} / {ubicacion.longitud}</td>
-                        <td>
+                      <tr key={index} className="border-b text-lg lg:text-lg">
+                        <td className=' py-2'>{ubicacion.pais}</td>
+                        <td className=' py-2'>{ubicacion.continente}</td>
+                        <td className=' py-2'>{ubicacion.latitud} / {ubicacion.longitud}</td>
+                        <td className=' py-2'>
                           <Link
                             to="/verFavorito"
                             state={{
@@ -225,7 +223,7 @@ const PantallaPerfil = () => {
                               longitud: ubicacion.longitud
                             }}
                           >
-                            <div className="text-white hover:underline">Ver ubicación</div>
+                            <div className="underline hover:text-gray-400">Ver ubicación</div>
                           </Link>
                         </td>
                       </tr>
@@ -241,12 +239,12 @@ const PantallaPerfil = () => {
             <div className='h-full overflow-y-auto p-2 scroll-invisible'>
               <table className='w-full text-sm'>
                 <thead className='border-b'>
-                  <tr className=''>
-                    <th className='text-md pb-3'>Puntuación</th>
-                    <th className='text-md pb-3'>Distancia (km)</th>
-                    <th className='text-md pb-3'>Tiempo (s)</th>
-                    <th className='text-md pb-3'>Categoría</th>
-                    <th className='text-md pb-3'>Ver</th>
+                  <tr className='text-lg text-[#171717bd]'>
+                    <th className='text-lg  py-2'>Puntuación</th>
+                    <th className='text-lg  py-2'>Distancia (km)</th>
+                    <th className='text-lg  py-2'>Tiempo (s)</th>
+                    <th className='text-lg  py-2'>Categoría</th>
+                    <th className='text-lg  py-2'>Ver</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -259,12 +257,12 @@ const PantallaPerfil = () => {
                       .map(coord => Number(coord.trim()));
 
                     return (
-                      <tr key={index} className="border-b">
-                        <td>{partida.puntuacion}</td>
-                        <td>{partida.desplazamiento}</td>
-                        <td>{partida.tiempo}</td>
-                        <td>{partida.nombre}</td>
-                        <td>
+                      <tr key={index} className="border-b text-lg lg:text-lg">
+                        <td className=' py-2'>{partida.puntuacion}</td>
+                        <td className=' py-2'>{partida.desplazamiento}</td>
+                        <td className=' py-2'>{partida.tiempo}</td>
+                        <td className=' py-2'>{partida.nombre}</td>
+                        <td className=' py-2'>
                           <Link
                             to="/verResultado"
                             state={{
@@ -274,7 +272,7 @@ const PantallaPerfil = () => {
                               lonMarcada
                             }}
                           >
-                            <div className="text-white hover:underline">Ver resultado</div>
+                            <div className="underline hover:text-gray-400">Ver resultado</div>
                           </Link>
                         </td>
                       </tr>
