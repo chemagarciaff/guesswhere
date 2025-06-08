@@ -8,6 +8,14 @@
 }
 
 @font-face {
+  font-family: contrax;
+  src: url(./assets/fonts/contrax.otf);
+}
+@font-face {
+  font-family: cool;
+  src: url(./assets/fonts/Cool.otf);
+}
+@font-face {
   font-family: neuro;
   src: url(./assets/fonts/Neuropol.otf);
 }

@@ -42,7 +42,6 @@ const Login = () => {
                     avataresObj[usuario.id_jugador] = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
                 }
             }
-            console.log(avataresObj)
 
             // Guardamos en el contexto
             setAvatares(avataresObj);
@@ -153,7 +152,6 @@ const Login = () => {
             });
 
             const data = await response.json();
-            console.log(data.token)
 
             if (!response.ok) {
 

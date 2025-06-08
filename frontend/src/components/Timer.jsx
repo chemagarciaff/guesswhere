@@ -43,8 +43,8 @@ const Timer = () => {
   };
 
   return (
-    <div className='aboslute top-[50px] left-[45%] w-[180px] z-1000 bg-[#00000099]'>
-      <h2>Temporizador: {formatTime(segundos)}</h2>
+    <div className='absolute top-5 left-5 p-4 z-[1500] fondo-arcoiris border'>
+      <h2>Temporizador <br />{formatTime(segundos)}</h2>
       {!isActive && configuracionPartida.tiempo === 0 && <p>¡Tiempo terminado!</p>}
     </div>
   );

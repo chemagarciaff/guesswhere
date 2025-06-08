@@ -28,7 +28,6 @@ const Register = () => {
             if (name === 'email') {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 const emailExists = await checkRepeatValue(name, value);
-                console.log(emailExists)
                 if (emailExists) {
                     error = 'El email ya está en uso';
                     return error;
@@ -61,26 +60,6 @@ const Register = () => {
         }
     };
 
-
-    const handleChange = (e) => {
-        const { name, value, files, type } = e.target;
-
-        if (type === 'file') {
-            setFormData(prev => ({ ...prev, [name]: files[0] }));
-        } else {
-            setFormData(prev => ({ ...prev, [name]: value.trim() }));
-        }
-    };
-
-    const validateData = async (e) => {
-        const { name, value } = e.target;
-        const error = await validateField(name, value);
-
-        setCampoError({
-            [name]: error
-        });
-    }
-
     const validateAllFields = async () => {
         const newErrors = {};
 
@@ -95,6 +74,26 @@ const Register = () => {
         setCampoError(newErrors);
         return Object.keys(newErrors).length === 0; // true si no hay errores
     };
+
+
+    const handleChange = (e) => {
+        const { name, value, files, type } = e.target;
+
+        if (type === 'file') {
+            setFormData(prev => ({ ...prev, [name]: files[0] }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const validateData = async (e) => {
+        const { name, value } = e.target;
+        const error = await validateField(name, value);
+
+        setCampoError({
+            [name]: error
+        });
+    }
 
     const handleBlur = async (e) => {
         await validateData(e);
@@ -133,8 +132,7 @@ const Register = () => {
             if (!response.ok) {
                 setCampoError({ general: result.error || "Error desconocido" });
             } else {
-                alert("Registro exitoso");
-                console.log(result);
+                alert("Registro exitoso. Comprueba tu correo electronico");
             }
         } catch (err) {
             setCampoError({ general: "Error de conexión con el servidor" });

@@ -13,7 +13,7 @@ const MapaResultado = () => {
     const markerObjetivoRef = useRef(null);
 
 
-    // Función para calcular distancia
+    // Función para calcular distancia HAVERSINE
     function getDistanceInKm(lat1, lng1, lat2, lng2) {
         const R = 6371;
         const toRad = (value) => (value * Math.PI) / 180;

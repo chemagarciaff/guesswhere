@@ -54,9 +54,6 @@ function SelectorUbicacion() {
     }
   }, [map]);
 
-  useEffect(() => {
-    console.log('Coordenadas actualizadas:', configuracionPartida.coordenadasSeleccionada);
-  }, [configuracionPartida.coordenadasSeleccionada]);
 
   return (
     <div className="z-10 w-[300px] h-[150px] hover:w-[500px] hover:h-[300px] absolute bottom-10 right-20 m-4 p-2 rounded shadow-lg flex flex-col gap-2">

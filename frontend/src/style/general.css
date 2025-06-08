@@ -36,16 +36,17 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 .fondo-mapa {
   background-image: url('./../assets/images/mapa_sin_markers.webp');
-  background-size: cover;
-  background-position: center center;
+  background-size: contain;
+  background-repeat: repeat-y;
+  background-position: top center;
 }
+
 .fondo-mapa-contain {
   background-image: url('./../assets/images/mapa_sin_markers.webp');
   background-size: contain;
-  background-repeat: none;
+  background-repeat: no-repeat no-repeat;
   background-position: center center;
 }
 .fondo-mapa-cover {

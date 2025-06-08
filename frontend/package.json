@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "argon2": "^0.43.0",
     "fireworks-js": "^2.10.8",
     "jsonwebtoken": "^9.0.2",
     "react": "^19.0.0",

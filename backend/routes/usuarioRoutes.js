@@ -7,6 +7,8 @@ import {
     deleteUsuarioController,
     getUsuarioByIdController,
     getUsuarioByUsernameController,
+    getUsuariosSinVerificarController,
+    getUsuariosJugadorersController,
     getUsuarioByEmailController,
     getUsuariosController,
     getUsuariosPublicosController,
@@ -24,11 +26,13 @@ usuarioRouter.get("/todos", getUsuariosController);
 usuarioRouter.get("/publicos", getUsuariosPublicosController);
 usuarioRouter.get("/id/:id", getUsuarioByIdController);
 usuarioRouter.get("/username/:username", getUsuarioByUsernameController);
+usuarioRouter.get("/sinVerificar", getUsuariosSinVerificarController);
+usuarioRouter.get("/jugadores", getUsuariosJugadorersController);
 usuarioRouter.get("/avatar/:id", getAvatarByIdController);
 usuarioRouter.get("/email/:email", getUsuarioByEmailController);
 usuarioRouter.post("/", upload.single('avatar'), createUsuarioController);
 usuarioRouter.post("/login", loginUsuarioController);
-usuarioRouter.patch("/:id", updateUsuarioController);
+usuarioRouter.patch("/:id", upload.none(), updateUsuarioController);
 usuarioRouter.delete("/:id", deleteUsuarioController);
 
 

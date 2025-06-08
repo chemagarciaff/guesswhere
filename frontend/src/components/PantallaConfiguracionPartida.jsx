@@ -65,16 +65,52 @@ const PantallaConfiguracionPartida = () => {
                             onChange={handleChange}
                             className='p-2 pl-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md cursor-pointer'
                         >
-                            <option value={1} disabled={usuario?.puntuacion_total > 5000}>Capitales del Mundo</option>
-                            <option value={2} disabled={usuario?.puntuacion_total > 5000}>Ciudades Historicas</option>
-                            <option value={3} disabled={usuario?.puntuacion_total > 5000}>Maravillas Naturales</option>
-                            <option value={4} disabled={usuario?.puntuacion_total > 12000}>Playas y Costas</option>
-                            <option value={5} disabled={usuario?.puntuacion_total > 12000}>Patrimonio de la Unesco</option>
-                            <option value={6} disabled={usuario?.puntuacion_total > 12000}>Montañas y Cumbres</option>
-                            <option value={7} disabled={usuario?.puntuacion_total > 12000}>Islas del Mundo</option>
-                            <option value={8} disabled={usuario?.puntuacion_total > 12000}>Parques Nacionales</option>
-                            <option value={9} disabled={usuario?.puntuacion_total > 12000}>Libre</option>
-                            {/* Agrega más opciones si las tienes */}
+                            <option value={9}>Libre</option>
+                            <option value={1}>Capitales del Mundo</option>
+                            <option value={2}>Ciudades Históricas</option>
+                            <option
+                                value={3}
+                                disabled={usuario?.puntuacion_total < 3000}
+                                title="Necesitas 3000 puntos"
+                            >
+                                Maravillas Naturales
+                            </option>
+                            <option
+                                value={4}
+                                disabled={usuario?.puntuacion_total < 6000}
+                                title="Necesitas 6000 puntos"
+                            >
+                                Playas y Costas
+                            </option>
+                            <option
+                                value={5}
+                                disabled={usuario?.puntuacion_total < 8000}
+                                title="Necesitas 8000 puntos"
+                            >
+                                Patrimonio de la Unesco
+                            </option>
+                            <option
+                                value={6}
+                                disabled={usuario?.puntuacion_total < 10000}
+                                title="Necesitas 10000 puntos"
+                            >
+                                Montañas y Cumbres
+                            </option>
+                            <option
+                                value={7}
+                                disabled={usuario?.puntuacion_total < 12000}
+                                title="Necesitas 12000 puntos"
+                            >
+                                Islas del Mundo
+                            </option>
+                            <option
+                                value={8}
+                                disabled={usuario?.puntuacion_total < 24000}
+                                title="Necesitas 24000 puntos"
+                            >
+                                Parques Nacionales
+                            </option>
+
                         </select>
                         <Link to={'/partida'}><button className='cursor-pointer px-[24px] py-[12px] w-full fondo-arcoiris rounded-full transition-all hover:scale-105 border-none text-[#171717bd] mt-8'>
                             Jugar

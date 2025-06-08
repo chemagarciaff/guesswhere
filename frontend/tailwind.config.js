@@ -6,9 +6,11 @@ export default {
     extend: {
       fontFamily: {
         supersonic: ['supersonic', 'sans-serif'],
+        contrax: ['contrax', 'sans-serif'],
         osaka: ['osaka', 'sans-serif'],
         dune: ['dune', 'sans-serif'],
         neuro: ['neuro', 'sans-serif'],
+        cool: ['cool', 'sans-serif'],
       },
     },
   },

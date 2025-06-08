@@ -54,9 +54,6 @@ function SelectorUbicacionGigante() {
     }
   }, [map]);
 
-  useEffect(() => {
-    console.log('Coordenadas actualizadas:', configuracionPartida.coordenadasSeleccionada);
-  }, [configuracionPartida.coordenadasSeleccionada]);
 
   return (
     <div className="z-10 w-screen h-screen absolute top-0 left-0 rounded shadow-lg flex flex-col gap-2">

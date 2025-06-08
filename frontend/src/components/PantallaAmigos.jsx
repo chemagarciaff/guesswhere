@@ -24,21 +24,18 @@ const PantallaAmigos = () => {
   const getAmigos = async () => {
     const response = await fetch('http://localhost:3000/guesswhere/amigo/confirmados/' + usuario.id_jugador)
     const data = await response.json()
-    console.log(data)
     setAmigos(data)
   }
 
   const getPeticiones = async () => {
     const response = await fetch('http://localhost:3000/guesswhere/amigo/peticiones/' + usuario.id_jugador);
     const data = await response.json();
-    console.log(data)
     setPeticiones(data);
   }
 
   const getNoAmigos = async () => {
     const response = await fetch('http://localhost:3000/guesswhere/amigo/jugadores-disponibles/' + usuario.id_jugador)
     const data = await response.json()
-    console.log(data)
     setNoAmigos(data)
   }
 
@@ -56,7 +53,6 @@ const PantallaAmigos = () => {
     })
 
     if (response.ok) {
-      console.log('Solicitud enviada');
       await getNoAmigos(); // Refresca la lista para quitar al usuario añadido
       await getPeticiones(); // Opcional: muestra tu propia petición enviada
     } else {
@@ -93,6 +89,10 @@ const PantallaAmigos = () => {
     }
   }
 
+  const irADetalle = (id) => {
+    navigate(`/amigos/${id}`);
+  };
+
   useEffect(() => {
     getAmigos()
     getPeticiones()
@@ -122,8 +122,8 @@ const PantallaAmigos = () => {
                     <img src={avatares[peticion.id_jugador]} alt={peticion.username} className="avatar w-10 h-10 rounded-full  border-2 border-blue-300" />
                     <span className="flex-1 text-gray-700">{peticion.nombre} {peticion.apellido1}</span>
                     <div className='flex items-center gap-6 cursor-pointer'>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width={22} height={22} onClick={() => handleAmistad(peticion.id_jugador, usuario.id_jugador)}><path fill='#FFBD54' d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width={22} height={22} onClick={() => handleNoAmistad(peticion.id_jugador, usuario.id_jugador)}><path fill='#FF0000' d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width={22} height={22} onClick={() => handleAmistad(peticion.id_jugador, usuario.id_jugador)}><path fill='#FFBD54' d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" /></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width={22} height={22} onClick={() => handleNoAmistad(peticion.id_jugador, usuario.id_jugador)}><path fill='#FF0000' d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" /></svg>
                     </div>
                     {/* <svg onClick={() => handleNoAmistad(peticion.id_jugador, usuario.id_jugador)} className="w-6 h-6 text-red-600 cursor-pointer border-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="..." /></svg> */}
                   </div>
@@ -147,7 +147,6 @@ const PantallaAmigos = () => {
             {noAmigos.length !== 0 ? (
               <div className="space-y-2 h-full overflow-y-auto p-2 scroll-invisible">
                 {noAmigos.map((peticion) => {
-                  console.log(peticion);
                   return (
                     <div
                       key={peticion.id_jugador}
@@ -185,10 +184,10 @@ const PantallaAmigos = () => {
         <div className="p-4 rounded-lg shadow overflow-auto bg-gray-100 bg-opacity-30 backdrop-blur-sm flex flex-col gap-4 pt-3">
           <h2 className="text-xl font-semibold mb-2 w-full text-center border-b pb-2">Mis amigos</h2>
           <div className='flex justify-evenly items-start flex-wrap gap-4'>
-
             {amigos.map((usuario) => (
               <div
                 key={usuario.id_jugador}
+                onClick={() => irADetalle(usuario.id_jugador)}
                 className="w-[30%]  p-4 flex flex-col gap-2 items-center justify-center bg-white hover:bg-indigo-300 cursor-pointer bg-opacity-80 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
               >
                 <img

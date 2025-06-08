@@ -14,6 +14,16 @@ export async function getUsuarioById(id) {
     return rows[0];
 }
 
+export async function getUsuarioSinVerificar() {
+    const [rows] = await db.execute("SELECT * FROM jugador WHERE verificado = false");
+    return rows;
+}
+
+export async function getUsuariosJugadorers() {
+    const [rows] = await db.execute("SELECT * FROM jugador WHERE rol = 0");
+    return rows;
+}
+
 
 export async function getUsuarioByUsername(username) {
     const [rows] = await db.execute("SELECT * FROM jugador WHERE username = ?", [username]);
@@ -41,7 +51,7 @@ export async function createUsuario(usuarioData) {
 }
 
 export async function updateUsuario(id, puntuacionActual, usuarioData) {
-    const camposPermitidos = ['nombre', 'apellido1', 'apellido2', 'email', 'username', 'puntuacion_total', 'rol', 'avatar', 'verificado'];
+    const camposPermitidos = ['nombre', 'apellido1', 'apellido2', 'password', 'email', 'username', 'puntuacion_total', 'rol', 'avatar', 'verificado'];
     const campos = [];
     const valores = [];
 

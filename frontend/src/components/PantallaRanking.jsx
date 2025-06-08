@@ -12,7 +12,6 @@ const PantallaRanking = () => {
   const getUsuariosPublicos = async () => {
     const response = await fetch('http://localhost:3000/guesswhere/usuario/publicos')
     const data = await response.json()
-    console.log(data)
     setUsuariosPublicos(data)
   }
 

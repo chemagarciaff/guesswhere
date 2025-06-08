@@ -17,7 +17,6 @@ const DetallesResultado = () => {
             return;
         }
         const data = await response.json()
-        console.log(data)
         setUbicacionesFavoritas(data)
     }
 
@@ -36,7 +35,6 @@ const DetallesResultado = () => {
                 return;
             }
             const data = await response.json();
-            console.log("Ubicación añadida a favoritos:", data);
             setUbicacionFavorita(true);
         } catch (error) {
             console.error("Error al añadir ubicación a favoritos:", error);
@@ -53,7 +51,6 @@ const DetallesResultado = () => {
                 return;
             }
             const data = await response.json();
-            console.log("Ubicación eliminada de favoritos:", data);
             setUbicacionFavorita(false);
         } catch (error) {
             console.error("Error al eliminar favorito:", error);
@@ -90,7 +87,6 @@ const DetallesResultado = () => {
 
     const handleVolverInicio = async () => {
         try {
-            console.log(configuracionPartida)
             // 1. Registrar la partida
             const responsePartida = await fetch('http://localhost:3000/guesswhere/partida', {
                 method: 'POST',
@@ -114,7 +110,6 @@ const DetallesResultado = () => {
                 return;
             }
 
-            console.log("Partida registrada:", dataPartida);
 
             // 2. Actualizar puntuación total del usuario
             const responseUsuario = await fetch(`http://localhost:3000/guesswhere/usuario/${usuario.id_jugador}`, {
@@ -131,7 +126,6 @@ const DetallesResultado = () => {
                 return;
             }
 
-            console.log("Usuario actualizado:", dataUsuario);
 
             const nuevoUsuario = {
                 ...usuario,

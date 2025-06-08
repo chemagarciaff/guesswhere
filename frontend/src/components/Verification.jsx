@@ -18,9 +18,6 @@ const Verification = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(e.target.codigo.value);
-        console.log(usuario.codigo);
-
         setError("");
 
         if(e.target.codigo.value === "") {

@@ -18,6 +18,8 @@ import VerResultado from "./components/VerResultado";
 import StreetViewFav from "./components/MapaStreetViewFav";
 import { useContext, useEffect } from "react";
 import Verification from "./components/Verification";
+import PantallaAdmin from "./components/PantallaAdmin";
+import PantallaDatosAmigos from "./components/PantallaDatosAmigos";
 
 function App() {
 
@@ -50,7 +52,6 @@ function App() {
           avataresObj[usuario.id_jugador] = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
         }
       }
-      console.log(avataresObj)
 
       // Guardamos en el contexto
       setAvatares(avataresObj);
@@ -102,6 +103,11 @@ function App() {
               <PantallaPerfil />
             </PrivateRoute>}
           />
+          <Route path="/amigos/:id" element={
+            <PrivateRoute>
+              <PantallaDatosAmigos />
+            </PrivateRoute>
+          } />
           <Route path="ajustes" element={
             <PrivateRoute><PantallaAjustes />
             </PrivateRoute>}
@@ -117,11 +123,16 @@ function App() {
             </PrivateRoute>}
           />
           <Route path="verificacion" element={
-              <Verification />}
+            <Verification />}
           />
           <Route path="verResultado" element={
             <PrivateRoute>
               <VerResultado />
+            </PrivateRoute>}
+          />
+          <Route path="admin" element={
+            <PrivateRoute>
+              <PantallaAdmin />
             </PrivateRoute>}
           />
         </Routes>

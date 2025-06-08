@@ -1,5 +1,6 @@
 import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
+import multer from 'multer';
 import sendVerificationEmail from './nodemailer.js'; // Asegúrate de que esta función esté implementada correctamente
 // const jwt = require('jsonwebtoken');
 
@@ -9,6 +10,8 @@ import {
     deleteUsuarioById,
     getUsuarioById,
     getUsuarioByUsername,
+    getUsuariosJugadorers,
+    getUsuarioSinVerificar,
     getUsuarioByEmail,
     getUsuarios,
     getUsuariosPublicos,
@@ -31,6 +34,26 @@ export async function getUsuariosController(req, res) {
 export async function getUsuariosPublicosController(req, res) {
     try {
         const usuarios = await getUsuariosPublicos();
+        res.json(usuarios);
+    } catch (err) {
+        console.error("Error al obtener los usuarios públicos:", err); // Log the error for debugging
+        res.status(500).json({ error: "Error al obtener los usuarios públicos" });
+    }
+}
+
+export async function getUsuariosSinVerificarController(req, res) {
+    try {
+        const usuarios = await getUsuarioSinVerificar();
+        res.json(usuarios);
+    } catch (err) {
+        console.error("Error al obtener los usuarios públicos:", err); // Log the error for debugging
+        res.status(500).json({ error: "Error al obtener los usuarios públicos" });
+    }
+}
+
+export async function getUsuariosJugadorersController(req, res) {
+    try {
+        const usuarios = await getUsuariosJugadorers();
         res.json(usuarios);
     } catch (err) {
         console.error("Error al obtener los usuarios públicos:", err); // Log the error for debugging
@@ -93,7 +116,7 @@ export async function getAvatarByIdController(req, res) {
 export async function createUsuarioController(req, res) {
     try {
         const { nombre, apellido1, apellido2, email, username, password } = req.body;
-        const avatar = req.file.buffer;
+        const avatar = req.file ? req.file.buffer : null;
         const passwordHashed = await argon2.hash(password);
         const verificationCode = Math.floor(100000 + Math.random() * 900000)
         try {
@@ -151,6 +174,8 @@ export async function loginUsuarioController(req, res) {
 // PATCH - actualizar usuario
 export async function updateUsuarioController(req, res) {
     try {
+        console.log(req.body)
+        // const { nombre, apellido1, apellido2, email, username } = req.body;
         const { id } = req.params;
         const usuarioExistente = await getUsuarioById(id);
         if (!usuarioExistente) {
