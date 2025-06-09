@@ -11,7 +11,7 @@ const StreetView = () => {
     let response = null;
     let data = null;
     if (configuracionPartida.categoria === 9) {
-      response = await fetch("http://localhost:3000/guesswhere/ubicacion/id/37");
+      response = await fetch("http://localhost:3000/guesswhere/ubicacion/random");
       data = await response.json();
     } else {
       response = await fetch("http://localhost:3000/guesswhere/pertenece/categoria/" + configuracionPartida.categoria);
